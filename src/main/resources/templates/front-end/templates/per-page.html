@@ -1,0 +1,12 @@
+<div style="width:auto">
+    <div class="input-group">
+        <div class="input-group-addon">
+            Show
+        </div>
+        <select name="optionPerPage" class="form-control"
+                ng-model="perPageNumber"
+                ng-change="perPageNumberChange(perPageNumber)"
+                ng-options="perPageOption for perPageOption in perPageOptions">
+        </select>
+    </div>
+</div>

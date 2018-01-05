@@ -1,0 +1,11 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+build/
+dist/
+/src/main/resources/templates/front-end/bower_components/
+/src/main/resources/templates/front-end/node_modules/

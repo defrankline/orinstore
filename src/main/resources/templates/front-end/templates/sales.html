@@ -1,0 +1,237 @@
+<pagetitle title="{{title|translate}}"></pagetitle>
+<div class="box-body">
+    <div class="row">
+        <div ng-show="showAlertSuccess" class="col-md-12">
+            <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                {{successMessage}}
+            </div>
+        </div>
+        <div ng-show="showAlertError" class="col-md-12">
+            <div class="alert alert-danger alert-styled-left alert-arrow-left alert-bordered">
+                {{errorMessage}}
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="showCreateForm===true">
+        <div class="col-md-10 col-md-offset-1">
+            <form role="form" name="formData" novalidate>
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Create</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label translate="PAID"></label>
+                                <select ng-model="formDataModel.paid" class="form-control"
+                                        ng-options="key as value for (key , value) in paymentModes"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label translate="CUSTOMER"></label>
+                                <select class="form-control"
+                                        ng-model="formDataModel.customer"
+                                        name="customer"
+                                        ng-options="item as (item.name+'['+item.email+']') for item in customers">
+                                    <option value="">--Customer--</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label translate="DATE"></label>
+                                    <input type="text" class="form-control pickDate" ng-model="formDataModel.sale_date"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th translate="ITEM"></th>
+                                <th translate="QTY"></th>
+                                <th translate="PRICE"></th>
+                                <th translate="SUB_TOTAL"></th>
+                                <th translate="REMOVE"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in invoice.items">
+                                <td><input type="text" ng-model="item.name" class="form-control"/></td>
+                                <td><input type="number" ng-model="item.qty" class="form-control"/></td>
+                                <td><input type="number" ng-model="item.price" class="form-control"/></td>
+                                <td><span class="pull-right">{{(item.qty * item.price)|currency:''}}</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" ng-click="decart($index)">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-primary" ng-click="cart()">Add item</button>
+                                </td>
+                                <td></td>
+                                <td translate="NET_AMOUNT"></td>
+                                <td>
+                                    <input type="text" class="form-control" ng-value="net()|currency:''" ng-model="formDataModel.net_amount"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td translate="VAT"></td>
+                                <td>
+                                    <input type="text" class="form-control" ng-value="vat(net())|currency:''" ng-model="formDataModel.tax"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td translate="TOTAL"></td>
+                                <td>
+                                    <span class="pull-right">{{total(net())|currency:''}}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" ng-click="store()" class="btn btn-primary"><i class="fa fa-save"></i> Save
+                        </button>
+                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
+                            Close
+                        </button>
+                    </div>
+                </div>
+                <link rel="stylesheet" href="bower_components/iCheck/skins/all.css">
+                <script src="bower_components/iCheck/icheck.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('input').iCheck({
+                            checkboxClass: 'icheckbox_minimal',
+                            radioClass: 'iradio_minimal',
+                            increaseArea: '20%' // optional
+                        });
+                    });
+                </script>
+            </form>
+        </div>
+    </div>
+    <div class="row" ng-show="showEditForm===true">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Update</h3>
+                </div>
+                <form role="form" name="formData" novalidate>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="formDataModel.name">
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" class="form-control" ng-model="formDataModel.price">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="form-control"
+                                    ng-model="formDataModel.productCategory"
+                                    name="productCategory"
+                                    ng-options="item as item.name for item in productCategories track by item.id">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Brand</label>
+                            <select class="form-control"
+                                    ng-model="formDataModel.brand"
+                                    name="brand"
+                                    ng-options="item as item.name for item in brands track by item.id">
+                            </select>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" ng-click="update()" class="btn btn-primary"><i class="fa fa-save"></i>
+                            Save
+                        </button>
+                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div layout="row">
+        <button type="button" ng-show="showAddButton===true" class="btn btn-lg btn-success" ng-click="create()">
+            <i class="fa fa-plus"></i> Create
+        </button>
+    </div>
+    <br/>
+    <div class="row" ng-show="showList===true && items.totalElements > 0">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th translate="SNO"></th>
+                                <th translate="DATE"></th>
+                                <th translate="NET_AMOUNT"></th>
+                                <th translate="TAX"></th>
+                                <th translate="TOTAL"></th>
+                                <th translate="MANAGE"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in items.content">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.sale_date|date:'M/d/Y'}}</td>
+                                <td>{{item.net_amount|currency:""}}</td>
+                                <td>{{item.taxt|currency:""}}</td>
+                                <td>{{item.customer.name}}</td>
+                                <td nowrap="nowrap">
+                                    <button type="button" class="btn btn-info" ng-click="edit(item)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" ng-click="delete(item)">
+                                        <i class="fa fa-remove"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row" ng-show="showList===true">
+        <div class="col-md-8" ng-show="items.totalElements > items.size">
+            <ul uib-pagination total-items="items.totalElements" max-size="maxSize" class="pagination-sm pull-left"
+                boundary-links="true"
+                num-pages="numPages" items-per-page="items.size"
+                ng-model="currentPage"
+                ng-change="pageChanged()">
+            </ul>
+        </div>
+        <div class="col-md-2" ng-show="items.totalElements > items.size">
+            <total-pages currentPage="{{currentPage + 1}}" totalItems="{{ items.totalElements }}"
+                         perPage="{{ items.size }}"></total-pages>
+        </div>
+        <div class="col-md-2" ng-show="items.totalElements > 0">
+            <div class="pull-right">
+                <per-page ng-model="perPage" ng-change="pageChanged()"></per-page>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //Date picker
+    $('.pickDate').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+</script>
