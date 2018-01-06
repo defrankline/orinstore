@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class SaleController {
 
     // Create a new Sale
     @PostMapping("/sales")
-    public Sale createSale(@Valid @RequestBody Sale sale) {
+    public ResponseEntity createSale(@Valid @RequestBody Sale sale) {
         RandomString randomString = new RandomString();
         String receipt = randomString.randomString(16);
         sale.setReceipt(receipt);
@@ -46,8 +47,12 @@ public class SaleController {
         sale.setSaleDate(sale.getSaleDate());
         sale.setPaid(sale.getPaid());
         sale.setCustomer(sale.getCustomer());
-        logger.debug("save sale : {}", sale);
-        return saleService.createSale(sale);
+        sale.setCreatedAt(sale.getCreatedAt());
+        Sale newSale = saleService.createSale(sale);
+        if(newSale == null){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(newSale, HttpStatus.OK);
     }
 
     // Get a Single Sale

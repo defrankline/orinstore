@@ -12,8 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name = "sales")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class Sale implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
@@ -39,12 +38,11 @@ public class Sale implements Serializable {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;

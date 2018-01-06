@@ -41,7 +41,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $st
         $scope.formDataModel = {};
 
         $scope.paymentModes = {
-            'CASH':'CASH',
+            'CASH':'Cash',
             'CREDIT':'On Credit',
         };
 
@@ -86,8 +86,13 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $st
         };
 
         $scope.store = function () {
-            SaleService.save($scope.formDataModel,
+            $scope.postData = {
+                'sale':$scope.formDataModel,
+                'items':$scope.invoice.items,
+            };
+            SaleService.save($scope.postData,
                 function (data) {
+                    console.log(data);
                     $scope.successMessage = "Sale Recorded Successfully";
                     $scope.showCreateForm = false;
                     $scope.showList = true;
