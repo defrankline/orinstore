@@ -9,5 +9,17 @@ var translationsEN = {
     UPDATE:"Update {{item}}",
     CUSTOMER:"Customer",
     CUSTOMERS:"Customers",
+    NET_AMOUNT:"Net Amount",
+    VAT:"VAT",
+    TOTAL:"Total",
+    SUB_TOTAL:'Sub-total',
+    REMOVE:'Remove',
+    PAID:'Paid in:',
+    ITEM:'Item',
+    PRICE:'Price',
+    DATE:'Date',
+    QTY:'Quantity',
+    SNO:'Sno',
+    TAX:'Tax',
 };
 

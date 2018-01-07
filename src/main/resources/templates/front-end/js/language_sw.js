@@ -9,5 +9,17 @@ var translationsSW = {
     UPDATE:"Sasisha {{item}}",
     CUSTOMER:"Mteja",
     CUSTOMERS:"Wateja",
+    NET_AMOUNT:"Jumla Ndogo",
+    VAT:"VAT",
+    TOTAL:"Jumla kuu",
+    SUB_TOTAL:'Jumla ndogo',
+    REMOVE:'Ondoa',
+    PAID:'Amelipa kwa:',
+    ITEM:'Bidhaa',
+    PRICE:'Bei',
+    DATE:'Tarehe',
+    QTY:'Idadi',
+    SNO:'Nambari',
+    TAX:'Kodi',
 };
 

@@ -74,7 +74,7 @@
                                 <td></td>
                                 <td translate="NET_AMOUNT"></td>
                                 <td>
-                                    <input type="number" class="form-control" ng-value="net()" ng-bind="formDataModel.netAmount" ng-model="formDataModel.netAmount"/>
+                                    <span class="pull-right">{{net()|currency:''}}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -82,7 +82,7 @@
                                 <td></td>
                                 <td translate="VAT"></td>
                                 <td>
-                                    <input type="number" class="form-control" ng-value="vat(net())" ng-model="formDataModel.tax"/>
+                                    <span class="pull-right">{{vat(net())|currency:''}}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -184,6 +184,7 @@
                                 <th translate="NET_AMOUNT"></th>
                                 <th translate="TAX"></th>
                                 <th translate="TOTAL"></th>
+                                <th translate="CUSTOMER"></th>
                                 <th translate="MANAGE"></th>
                             </tr>
                             </thead>
@@ -193,6 +194,7 @@
                                 <td>{{item.saleDate|date:'MMM, dd yyyy'}}</td>
                                 <td>{{item.netAmount|currency:""}}</td>
                                 <td>{{item.tax|currency:""}}</td>
+                                <td>{{(item.tax + item.netAmount)|currency:''}}</td>
                                 <td>{{item.customer.name}}</td>
                                 <td nowrap="nowrap">
                                     <button type="button" class="btn btn-info" ng-click="edit(item)">
