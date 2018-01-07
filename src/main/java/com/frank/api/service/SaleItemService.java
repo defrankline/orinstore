@@ -1,7 +1,8 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Product;
-import com.frank.api.repository.ProductRepository;
+import com.frank.api.model.SaleItem;
+import com.frank.api.repository.SaleItemRepository;
+import com.frank.api.repository.SaleItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,37 +12,37 @@ import java.util.List;
 
 
 @Service
-public class ProductService {
+public class SaleItemService {
 
 
-    private ProductRepository productRepository;
+    private SaleItemRepository saleItemRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public SaleItemService(SaleItemRepository saleItemRepository) {
+        this.saleItemRepository = saleItemRepository;
     }
 
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public SaleItem createSaleItem(SaleItem saleItem) {
+        return saleItemRepository.save(saleItem);
     }
 
-    public Product getProductById(Long id){
-        return productRepository.findOne(id);
+    public SaleItem getSaleItemById(Long id){
+        return saleItemRepository.findOne(id);
     }
 
-    public Product updateProduct(Product product) {
-        return productRepository.save(product);
+    public SaleItem updateSaleItem(SaleItem saleItem) {
+        return saleItemRepository.save(saleItem);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<SaleItem> getAllSaleItems() {
+        return saleItemRepository.findAll();
     }
 
-    public Page<Product> getPaginatedProduct(Integer page, Integer perPage){
-        return productRepository.findAll(new PageRequest(page,perPage));
+    public Page<SaleItem> getPaginatedSaleItem(Integer page, Integer perPage){
+        return saleItemRepository.findAll(new PageRequest(page,perPage));
     }
 
-    public void deleteProduct(Product product){
-        productRepository.delete(product);
+    public void deleteSaleItem(SaleItem saleItem){
+        saleItemRepository.delete(saleItem);
     }
 }

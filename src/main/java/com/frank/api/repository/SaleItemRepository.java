@@ -1,11 +1,11 @@
 package com.frank.api.repository;
 
-import com.frank.api.model.Product;
+import com.frank.api.model.SaleItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface SaleItemRepository extends JpaRepository<SaleItem, Long> {
 
 
 }

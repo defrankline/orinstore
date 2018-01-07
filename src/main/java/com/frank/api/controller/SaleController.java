@@ -3,6 +3,9 @@ package com.frank.api.controller;
 import com.frank.api.model.Sale;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.RequestWrapper;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.json.*;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -37,7 +44,7 @@ public class SaleController {
     }
 
     // Create a new Sale
-    @PostMapping("/sales")
+    /*@PostMapping("/sales")
     public ResponseEntity createSale(@Valid @RequestBody Sale sale) {
         RandomString randomString = new RandomString();
         String receipt = randomString.randomString(16);
@@ -53,7 +60,7 @@ public class SaleController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(newSale, HttpStatus.OK);
-    }
+    }*/
 
     // Get a Single Sale
     @GetMapping("/sales/{id}")
@@ -97,6 +104,12 @@ public class SaleController {
 
         saleService.deleteSale(sale);
         return ResponseEntity.ok().build();
+    }
+
+    // Create a new Sale
+    @PostMapping("/sales")
+    public ResponseEntity createSale(@RequestBody String sale) {
+        return new ResponseEntity<>(sale, HttpStatus.OK);
     }
 
 }

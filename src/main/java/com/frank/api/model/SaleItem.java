@@ -20,9 +20,6 @@ public class SaleItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "price", nullable = false)
     private Double price;
 
@@ -37,12 +34,11 @@ public class SaleItem implements Serializable {
     @JoinColumn(name = "sale_id")
     private Sale sale;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
@@ -51,8 +47,7 @@ public class SaleItem implements Serializable {
 
     }
 
-    public SaleItem(String name, Double price, Integer qty, Product product, Sale sale, Date createdAt, Date updatedAt) {
-        this.name = name;
+    public SaleItem(Double price, Integer qty, Product product, Sale sale, Date createdAt, Date updatedAt) {
         this.price = price;
         this.qty = qty;
         this.product = product;
@@ -68,14 +63,6 @@ public class SaleItem implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getPrice() {
