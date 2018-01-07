@@ -41,3 +41,10 @@ services.factory('SaleService', ['$resource', function ($resource) {
         paginated: {method: 'GET',params: {page: '@page',perPage:'@perPage'}, url: API_URL+'/api/sales/paginated'},
     });
 }]);
+
+services.factory('SaleItemService', ['$resource', function ($resource) {
+    return $resource(API_URL+'/api/saleItems/:id', {}, {
+        update: {method: 'PUT', params: {id: '@id'}},
+        paginated: {method: 'GET',params: {page: '@page',perPage:'@perPage'}, url: API_URL+'/api/saleItems/paginated'},
+    });
+}]);

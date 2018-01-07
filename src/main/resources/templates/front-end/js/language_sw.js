@@ -21,5 +21,6 @@ var translationsSW = {
     QTY:'Idadi',
     SNO:'Nambari',
     TAX:'Kodi',
+    RECEIPT:'Stakabadhi',
 };
 

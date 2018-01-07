@@ -110,17 +110,6 @@
                         </button>
                     </div>
                 </div>
-                <link rel="stylesheet" href="bower_components/iCheck/skins/all.css">
-                <script src="bower_components/iCheck/icheck.min.js"></script>
-                <script>
-                    $(document).ready(function () {
-                        $('input').iCheck({
-                            checkboxClass: 'icheckbox_minimal',
-                            radioClass: 'iradio_minimal',
-                            increaseArea: '20%' // optional
-                        });
-                    });
-                </script>
             </form>
         </div>
     </div>
@@ -190,17 +179,22 @@
                                 <th translate="TAX"></th>
                                 <th translate="TOTAL"></th>
                                 <th translate="CUSTOMER"></th>
+                                <th translate="RECEIPT"></th>
                                 <th translate="MANAGE"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="item in items.content">
+                            <tr ng-repeat-start="(v,values) in items.content | groupBy:'paid'">
+                                <td colspan="8" class="bg-info">{{v}}</td>
+                            </tr>
+                            <tr  ng-repeat-end ng-repeat="item in values">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.saleDate|date:'MMM, dd yyyy'}}</td>
                                 <td>{{item.netAmount|currency:""}}</td>
                                 <td>{{item.tax|currency:""}}</td>
                                 <td>{{(item.tax + item.netAmount)|currency:''}}</td>
                                 <td>{{item.customer.name}}</td>
+                                <td>{{item.receipt}}</td>
                                 <td nowrap="nowrap">
                                     <button type="button" class="btn btn-info" ng-click="edit(item)">
                                         <i class="fa fa-edit"></i>

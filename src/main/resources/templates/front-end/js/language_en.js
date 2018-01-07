@@ -21,5 +21,6 @@ var translationsEN = {
     QTY:'Quantity',
     SNO:'Sno',
     TAX:'Tax',
+    RECEIPT:'Receipt',
 };
 

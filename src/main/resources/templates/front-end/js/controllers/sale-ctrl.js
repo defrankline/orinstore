@@ -1,4 +1,4 @@
-function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService, $timeout, $state, ConfirmDialogService) {
+function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
 
@@ -6,7 +6,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService
         $scope.showAlertSuccess = true;
         $timeout(function () {
             $scope.showAlertSuccess = false;
-        }, 6000);
+        }, 10000);
         $state.reload();
     };
 
@@ -14,7 +14,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService
         $scope.showAlertError = true;
         $timeout(function () {
             $scope.showAlertError = false;
-        }, 6000);
+        }, 10000);
         $state.reload();
     };
 
@@ -41,8 +41,8 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService
         $scope.formDataModel = {};
 
         $scope.paymentModes = {
-            'CASH':'Cash',
-            'CREDIT':'On Credit',
+            'CASH': 'Cash',
+            'CREDIT': 'On Credit',
         };
 
         CustomerService.query(function (data) {
@@ -56,7 +56,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService
         $scope.invoice = {
             items: [{
                 product: {},
-                qty: 0
+                qty: 1
             }]
         };
         $scope.cart = function () {
@@ -88,14 +88,32 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService
         };
 
         $scope.store = function () {
-            $scope.postData = {
-                'sale':$scope.formDataModel,
-                'saleItems':$scope.invoice.items,
+            $scope.sale = {
+                'netAmount': $scope.net(),
+                'tax': $scope.vat($scope.net()),
+                'saleDate': $scope.formDataModel.saleDate,
+                'customer': $scope.formDataModel.customer,
+                'paid': $scope.formDataModel.paid,
             };
             //console.log($scope.postData);
-            SaleService.save($scope.postData,
+            SaleService.save($scope.sale,
                 function (data) {
-                    console.log(data);
+                    angular.forEach($scope.invoice.items, function (item) {
+                        $scope.saleItems = {
+                            'price': item.product.price,
+                            'qty': item.qty,
+                            'product': item.product,
+                            'sale': data,
+                        };
+                        SaleItemService.save($scope.saleItems,
+                            function (data) {
+
+                            }, function (error) {
+
+                            }
+                        )
+                    });
+
                     $scope.successMessage = "Sale Recorded Successfully";
                     $scope.showCreateForm = false;
                     $scope.showList = true;
