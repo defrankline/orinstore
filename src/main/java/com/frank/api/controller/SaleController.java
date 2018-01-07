@@ -1,6 +1,9 @@
 package com.frank.api.controller;
 
+import com.frank.api.Config;
 import com.frank.api.model.Sale;
+import com.frank.api.model.SaleItem;
+import com.frank.api.service.SaleItemService;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
 import org.json.simple.JSONArray;
@@ -29,6 +32,9 @@ public class SaleController {
     @Autowired
     private SaleService saleService;
 
+    @Autowired
+    private SaleItemService saleItemService;
+
     private final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
     // Get All Sales
@@ -44,9 +50,10 @@ public class SaleController {
     }
 
     // Create a new Sale
-    /*@PostMapping("/sales")
+    @PostMapping("/sales")
     public ResponseEntity createSale(@Valid @RequestBody Sale sale) {
         RandomString randomString = new RandomString();
+        Double vat = Config.VAT;
         String receipt = randomString.randomString(16);
         sale.setReceipt(receipt);
         sale.setNetAmount(sale.getNetAmount());
@@ -55,12 +62,11 @@ public class SaleController {
         sale.setPaid(sale.getPaid());
         sale.setCustomer(sale.getCustomer());
         sale.setCreatedAt(sale.getCreatedAt());
-        Sale newSale = saleService.createSale(sale);
-        if(newSale == null){
+        if(saleService.createSale(sale) == null){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(newSale, HttpStatus.OK);
-    }*/
+        return ResponseEntity.ok().body(saleService.createSale(sale));
+    }
 
     // Get a Single Sale
     @GetMapping("/sales/{id}")
@@ -105,11 +111,4 @@ public class SaleController {
         saleService.deleteSale(sale);
         return ResponseEntity.ok().build();
     }
-
-    // Create a new Sale
-    @PostMapping("/sales")
-    public ResponseEntity createSale(@RequestBody String sale) {
-        return new ResponseEntity<>(sale, HttpStatus.OK);
-    }
-
 }

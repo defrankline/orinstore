@@ -1,7 +1,7 @@
 package com.frank.api.controller;
 
-import com.frank.api.model.Product;
-import com.frank.api.service.ProductService;
+import com.frank.api.model.SaleItem;
+import com.frank.api.service.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,65 +13,63 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class SaleItemController {
 
     @Autowired
-    private ProductService productService;
+    private SaleItemService saleItemService;
 
-    // Get All Products
-    @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    // Get All SaleItems
+    @GetMapping("/saleItems")
+    public List<SaleItem> getAllSaleItems() {
+        return saleItemService.getAllSaleItems();
     }
 
-    //Get all products - paginated
-    @GetMapping("/products/paginated")
-    public Page<Product> getPaginatedProducts(@RequestParam("page") Integer page,@RequestParam("perPage") Integer perPage) {
-        return productService.getPaginatedProduct(page,perPage);
+    //Get all saleItems - paginated
+    @GetMapping("/saleItems/paginated")
+    public Page<SaleItem> getPaginatedSaleItems(@RequestParam("page") Integer page,@RequestParam("perPage") Integer perPage) {
+        return saleItemService.getPaginatedSaleItem(page,perPage);
     }
 
-    // Create a new Product
-    @PostMapping("/products")
-    public Product createProduct(@Valid @RequestBody Product product) {
-        return productService.createProduct(product);
+    // Create a new SaleItem
+    @PostMapping("/saleItems")
+    public SaleItem createSaleItem(@Valid @RequestBody SaleItem saleItem) {
+        return saleItemService.createSaleItem(saleItem);
     }
 
-    // Get a Single Product
-    @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable(value = "id") Long productId) {
-        Product product = productService.getProductById(productId);
-        if (product == null) {
+    // Get a Single SaleItem
+    @GetMapping("/saleItems/{id}")
+    public ResponseEntity<SaleItem> getSaleItemById(@PathVariable(value = "id") Long saleItemId) {
+        SaleItem saleItem = saleItemService.getSaleItemById(saleItemId);
+        if (saleItem == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(product);
+        return ResponseEntity.ok().body(saleItem);
     }
 
-    // Update a Product
-    @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long productId, @Valid @RequestBody Product productDetails) {
-        Product product = productService.getProductById(productId);
-        if (product == null) {
+    // Update a SaleItem
+    @PutMapping("/saleItems/{id}")
+    public ResponseEntity<SaleItem> updateSaleItem(@PathVariable(value = "id") Long saleItemId, @Valid @RequestBody SaleItem saleItemDetails) {
+        SaleItem saleItem = saleItemService.getSaleItemById(saleItemId);
+        if (saleItem == null) {
+            return ResponseEntity.notFound().build();
+        }
+        saleItem.setPrice(saleItemDetails.getPrice());
+        saleItem.setQty(saleItemDetails.getQty());
+        saleItem.setProduct(saleItemDetails.getProduct());
+        saleItem.setSale(saleItemDetails.getSale());
+        SaleItem updatedSaleItem = saleItemService.updateSaleItem(saleItem);
+        return ResponseEntity.ok(updatedSaleItem);
+    }
+
+    // Delete a SaleItem
+    @DeleteMapping("/saleItems/{id}")
+    public ResponseEntity<SaleItem> deleteSaleItem(@PathVariable(value = "id") Long saleItemId) {
+        SaleItem saleItem = saleItemService.getSaleItemById(saleItemId);
+        if (saleItem == null) {
             return ResponseEntity.notFound().build();
         }
 
-        product.setName(productDetails.getName());
-        product.setPrice(productDetails.getPrice());
-        product.setProductCategory(productDetails.getProductCategory());
-        product.setBrand(productDetails.getBrand());
-
-        Product updatedProduct = productService.updateProduct(product);
-        return ResponseEntity.ok(updatedProduct);
-    }
-
-    // Delete a Product
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable(value = "id") Long productId) {
-        Product product = productService.getProductById(productId);
-        if (product == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        productService.deleteProduct(product);
+        saleItemService.deleteSaleItem(saleItem);
         return ResponseEntity.ok().build();
     }
 

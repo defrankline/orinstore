@@ -31,7 +31,7 @@ public class SaleItem implements Serializable {
     private Product product;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sale_id")
+    @JoinColumn(name="sale_id", nullable=false)
     private Sale sale;
 
     @Column(updatable = false)
