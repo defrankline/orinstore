@@ -50,26 +50,31 @@
                             <thead>
                             <tr>
                                 <th translate="ITEM"></th>
-                                <th translate="QTY"></th>
                                 <th translate="PRICE"></th>
-                                <th translate="SUB_TOTAL"></th>
+                                <th translate="QTY"></th>
+                                <th><span class="pull-right" translate="SUB_TOTAL"></span></th>
                                 <th translate="REMOVE"></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="item in invoice.items">
-                                <td><input type="text" ng-model="item.name" class="form-control"/></td>
-                                <td><input type="number" ng-model="item.qty" class="form-control"/></td>
-                                <td><input type="number" ng-model="item.price" class="form-control"/></td>
-                                <td><span class="pull-right">{{(item.qty * item.price)|currency:''}}</span></td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" ng-click="decart($index)">Delete
+                                <td class="col-md-4">
+                                    <select class="form-control" ui-select2 ng-model="item.product" ng-options="itm as itm.name for itm in products" style="width: 100%;"></select>
+                                </td>
+                                <td class="col-md-2"><input type="number" ng-model="item.product.price" ng-value="item.product.price" class="form-control"/></td>
+                                <td class="col-md-2"><input type="number" ng-model="item.qty" class="form-control"/></td>
+                                <td class="col-md-3"><span class="pull-right">{{(item.qty * item.product.price)|currency:''}}</span></td>
+                                <td class="col-md-1">
+                                    <button type="button" class="btn btn-danger" ng-click="decart($index)">
+                                        <i class="fa fa-remove"></i>
                                     </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-primary" ng-click="cart()">Add item</button>
+                                    <button type="button" class="btn btn-primary" ng-click="cart()">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </td>
                                 <td></td>
                                 <td translate="NET_AMOUNT"></td>

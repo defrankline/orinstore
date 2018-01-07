@@ -1,4 +1,4 @@
-function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $state, ConfirmDialogService) {
+function SaleCtrl($scope, DataModel, SaleService, CustomerService,ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
 
@@ -49,18 +49,20 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $st
             $scope.customers = data;
         });
 
+        ProductService.query(function (data) {
+            $scope.products = data;
+        });
+
         $scope.invoice = {
             items: [{
-                name: '',
-                qty: 0,
-                price: 0
+                product: {},
+                qty: 0
             }]
         };
         $scope.cart = function () {
             $scope.invoice.items.push({
-                name: '',
-                qty: 1,
-                price: 0
+                product: {},
+                qty: 1
             });
         };
         $scope.decart = function (index) {
@@ -69,7 +71,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $st
         $scope.net = function () {
             var total = 0;
             angular.forEach($scope.invoice.items, function (item) {
-                total += item.qty * item.price;
+                total += item.qty * item.product.price;
             });
             return total;
         };
@@ -88,8 +90,9 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $timeout, $st
         $scope.store = function () {
             $scope.postData = {
                 'sale':$scope.formDataModel,
-                'items':$scope.invoice.items,
+                'saleItems':$scope.invoice.items,
             };
+            //console.log($scope.postData);
             SaleService.save($scope.postData,
                 function (data) {
                     console.log(data);
