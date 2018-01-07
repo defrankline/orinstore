@@ -10,13 +10,6 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
 
     $urlRouterProvider.otherwise('/home');
 
-    var loginState = {
-        name: 'login',
-        url: '/login',
-        templateUrl: '/templates/login.html',
-        controller: LoginCtrl,
-    };
-
     var homeState = {
         name: 'home',
         url: '/home',
@@ -73,7 +66,6 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
 
     $stateProvider.state(saleState);
     $stateProvider.state(customerState);
-    $stateProvider.state(loginState);
     $stateProvider.state(productState);
     $stateProvider.state(productCategoryState);
     $stateProvider.state(brandState);
