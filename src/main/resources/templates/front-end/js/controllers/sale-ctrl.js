@@ -22,6 +22,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemServic
     $scope.showEditForm = false;
     $scope.showList = true;
     $scope.showAddButton = true;
+    $scope.showItems = false;
 
     $scope.currentPage = 0;
     $scope.maxSize = 3;
@@ -129,6 +130,18 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemServic
         };
     };
 
+    $scope.items = function (sale) {
+        $scope.showItems = true;
+        $scope.showList = false;
+        $scope.showEditForm = false;
+        $scope.showAddButton = false;
+
+        SaleService.items({sale_id:sale.id},function (data) {
+            $scope.items = data;
+        });
+
+    };
+
 
     $scope.edit = function (formDataModel) {
         $scope.showEditForm = true;
@@ -176,9 +189,9 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemServic
     $scope.close = function () {
         $scope.showCreateForm = false;
         $scope.showEditForm = false;
+        $scope.showItems = false;
         $scope.showList = true;
         $scope.showAddButton = true;
-        /*$state.reload();*/
     };
 };
 

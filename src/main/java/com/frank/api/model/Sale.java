@@ -50,7 +50,6 @@ public class Sale implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-
     public Sale() {
 
     }

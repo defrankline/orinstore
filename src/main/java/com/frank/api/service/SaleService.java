@@ -1,6 +1,8 @@
 package com.frank.api.service;
 
 import com.frank.api.model.Sale;
+import com.frank.api.model.SaleItem;
+import com.frank.api.repository.SaleItemRepository;
 import com.frank.api.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ public class SaleService {
 
 
     private SaleRepository saleRepository;
+    private SaleItemRepository saleItemRepository;
 
     @Autowired
     public SaleService(SaleRepository saleRepository) {
@@ -35,6 +38,10 @@ public class SaleService {
 
     public List<Sale> getAllSales() {
         return saleRepository.findAll();
+    }
+
+    public List<SaleItem> getSaleItems(Long saleId) {
+        return saleItemRepository.findAll();
     }
 
     public Page<Sale> getPaginatedSale(Integer page, Integer perPage){

@@ -1,5 +1,7 @@
 package com.frank.api.controller;
 
+import com.frank.api.Config;
+import com.frank.api.model.Sale;
 import com.frank.api.model.SaleItem;
 import com.frank.api.service.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
 public class SaleItemController {

@@ -1,5 +1,6 @@
 package com.frank.api.service;
 
+import com.frank.api.model.Sale;
 import com.frank.api.model.SaleItem;
 import com.frank.api.repository.SaleItemRepository;
 import com.frank.api.repository.SaleItemRepository;

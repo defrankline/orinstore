@@ -2,6 +2,7 @@ package com.frank.api.controller;
 
 import com.frank.api.Config;
 import com.frank.api.model.Sale;
+import com.frank.api.model.SaleItem;
 import com.frank.api.service.SaleItemService;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
 public class SaleController {
@@ -98,5 +99,11 @@ public class SaleController {
 
         saleService.deleteSale(sale);
         return ResponseEntity.ok().build();
+    }
+
+    // Get SaleItems
+    @GetMapping("/sales/items")
+    public List<SaleItem> getSaleItems(@RequestParam("sale_id") Long saleId) {
+        return saleService.getSaleItems(saleId);
     }
 }

@@ -75,6 +75,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     $stateProvider.state("otherwise", {url: '/home'});
 });
 
+myApp.constant("API_URL","http://127.0.0.1:9000");
 
 myApp.run(function ($window, $rootScope, $interval, PingService) {
     var ping = function () {
@@ -99,8 +100,6 @@ myApp.run(function ($window, $rootScope, $interval, PingService) {
     }, false);
 });
 
-
-
 myApp.directive("perPage", function () {
     return {
         restrict: "E",
@@ -115,6 +114,7 @@ myApp.directive("perPage", function () {
         }
     };
 });
+
 myApp.directive("totalPages", function () {
     return {
         restrict: "E",
@@ -130,6 +130,7 @@ myApp.directive("totalPages", function () {
         }
     };
 });
+
 myApp.factory("ConfirmDialogService", ["$q", "$uibModal", function ($q, $uibModal) {
     var _showConfirmDialog = function (title, message) {
         var defer = $q.defer();
@@ -163,6 +164,7 @@ myApp.factory("ConfirmDialogService", ["$q", "$uibModal", function ($q, $uibModa
     };
 
 }]);
+
 myApp.directive('pagetitle', function () {
     return {
         restrict: 'E',
