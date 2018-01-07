@@ -2,13 +2,9 @@ package com.frank.api.controller;
 
 import com.frank.api.Config;
 import com.frank.api.model.Sale;
-import com.frank.api.model.SaleItem;
 import com.frank.api.service.SaleItemService;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import javax.xml.ws.RequestWrapper;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import org.json.*;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -31,9 +22,6 @@ public class SaleController {
 
     @Autowired
     private SaleService saleService;
-
-    @Autowired
-    private SaleItemService saleItemService;
 
     private final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
