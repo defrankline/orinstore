@@ -40,10 +40,6 @@ public class SaleItemService {
         return saleItemRepository.findAll();
     }
 
-    public List<SaleItem> getSaleItems(Sale sale,Sort sort) {
-        return saleItemRepository.getAllBySale(sale,sort);
-    }
-
     public Page<SaleItem> getPaginatedSaleItem(Integer page, Integer perPage){
         return saleItemRepository.findAll(new PageRequest(page,perPage));
     }

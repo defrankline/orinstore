@@ -47,17 +47,12 @@ public class Sale implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<SaleItem> saleItems = new ArrayList<>();
 
     public Sale() {
 
     }
 
-    public Sale(String receipt, Double netAmount, Double tax, Date saleDate, String paid, Customer customer, Date createdAt, Date updatedAt, List<SaleItem> saleItems) {
+    public Sale(String receipt, Double netAmount, Double tax, Date saleDate, String paid, Customer customer, Date createdAt, Date updatedAt) {
         this.receipt = receipt;
         this.netAmount = netAmount;
         this.tax = tax;
@@ -66,7 +61,6 @@ public class Sale implements Serializable {
         this.customer = customer;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.saleItems = saleItems;
     }
 
     public Long getId() {
@@ -139,13 +133,5 @@ public class Sale implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public List<SaleItem> getSaleItems() {
-        return saleItems;
-    }
-
-    public void setSaleItems(List<SaleItem> saleItems) {
-        this.saleItems = saleItems;
     }
 }

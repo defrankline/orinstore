@@ -102,13 +102,4 @@ public class SaleController {
         saleService.deleteSale(sale);
         return ResponseEntity.ok().build();
     }
-
-
-    // Get sale items by sale
-    @GetMapping("/sales/items")
-    public List<SaleItem> getSaleItems(@RequestParam("saleId") Long saleId) {
-        Sale sale = saleService.getSaleById(saleId);
-        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "price"));
-        return saleItemService.getSaleItems(sale,sort);
-    }
 }

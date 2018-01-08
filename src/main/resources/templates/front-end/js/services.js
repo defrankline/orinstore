@@ -55,7 +55,7 @@ services.factory('SaleService', ['$resource', function ($resource) {
     return $resource(API_URL + '/api/sales/:id', {}, {
         update: {method: 'PUT', params: {id: '@id'}},
         paginated: {method: 'GET', params: {page: '@page', perPage: '@perPage'}, url: API_URL + '/api/sales/paginated'},
-        items: {method: 'GET', params: {sale_id: '@sale_id'}, url: API_URL + '/api/sales/items'},
+        items: {method: 'GET', params: {saleId: '@saleId'}, url: API_URL + '/api/sales/items'},
     });
 }]);
 
