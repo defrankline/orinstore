@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class SaleController {
 
     @Autowired
     private SaleService saleService;
+    private SaleItemService saleItemService;
 
     private final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
@@ -101,9 +103,12 @@ public class SaleController {
         return ResponseEntity.ok().build();
     }
 
-    // Get SaleItems
+
+    // Get sale items by sale
     @GetMapping("/sales/items")
-    public List<SaleItem> getSaleItems(@RequestParam("sale_id") Long saleId) {
-        return saleService.getSaleItems(saleId);
+    public List<SaleItem> getSaleItems(@RequestParam("saleId") Long saleId) {
+        Sale sale = saleService.getSaleById(saleId);
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "price"));
+        return saleItemService.getSaleItems(sale,sort);
     }
 }

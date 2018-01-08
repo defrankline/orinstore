@@ -7,6 +7,7 @@ import com.frank.api.repository.SaleItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,10 @@ public class SaleItemService {
 
     public List<SaleItem> getAllSaleItems() {
         return saleItemRepository.findAll();
+    }
+
+    public List<SaleItem> getSaleItems(Sale sale,Sort sort) {
+        return saleItemRepository.getAllBySale(sale,sort);
     }
 
     public Page<SaleItem> getPaginatedSaleItem(Integer page, Integer perPage){

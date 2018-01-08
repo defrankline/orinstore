@@ -15,9 +15,7 @@ import java.util.List;
 @Service
 public class SaleService {
 
-
     private SaleRepository saleRepository;
-    private SaleItemRepository saleItemRepository;
 
     @Autowired
     public SaleService(SaleRepository saleRepository) {
@@ -38,10 +36,6 @@ public class SaleService {
 
     public List<Sale> getAllSales() {
         return saleRepository.findAll();
-    }
-
-    public List<SaleItem> getSaleItems(Long saleId) {
-        return saleItemRepository.findAll();
     }
 
     public Page<Sale> getPaginatedSale(Integer page, Integer perPage){

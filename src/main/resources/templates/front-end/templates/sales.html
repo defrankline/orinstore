@@ -59,11 +59,16 @@
                             <tbody>
                             <tr ng-repeat="item in invoice.items">
                                 <td class="col-md-4">
-                                    <select class="form-control" ui-select2 ng-model="item.product" ng-options="itm as itm.name for itm in products" style="width: 100%;"></select>
+                                    <select class="form-control" ui-select2 ng-model="item.product"
+                                            ng-options="itm as itm.name for itm in products"
+                                            style="width: 100%;"></select>
                                 </td>
-                                <td class="col-md-2"><input type="number" ng-model="item.product.price" ng-value="item.product.price" class="form-control"/></td>
-                                <td class="col-md-2"><input type="number" ng-model="item.qty" class="form-control"/></td>
-                                <td class="col-md-3"><span class="pull-right">{{(item.qty * item.product.price)|currency:''}}</span></td>
+                                <td class="col-md-2"><input type="number" ng-model="item.product.price"
+                                                            ng-value="item.product.price" class="form-control"/></td>
+                                <td class="col-md-2"><input type="number" ng-model="item.qty" class="form-control"/>
+                                </td>
+                                <td class="col-md-3"><span class="pull-right">{{(item.qty * item.product.price)|currency:''}}</span>
+                                </td>
                                 <td class="col-md-1">
                                     <button type="button" class="btn btn-danger" ng-click="decart($index)">
                                         <i class="fa fa-remove"></i>
@@ -115,11 +120,11 @@
     </div>
     <div class="row" ng-show="showEditForm===true">
         <div class="col-md-6 col-md-offset-3">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Update</h3>
-                </div>
-                <form role="form" name="formData" novalidate>
+            <form role="form" name="formData" novalidate>
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Update</h3>
+                    </div>
                     <div class="box-body">
                         <div class="form-group">
                             <label>Name</label>
@@ -155,8 +160,8 @@
                             Close
                         </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
     <div layout="row">
@@ -165,6 +170,59 @@
         </button>
     </div>
     <br/>
+    <div class="row" ng-show="showItems===true">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <div class="box-title">
+                                <span translate="SALE_ITEMS"></span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th translate="SNO"></th>
+                                        <th translate="PRODUCT"></th>
+                                        <th translate="PRICE"></th>
+                                        <th translate="QTY"></th>
+                                        <th translate="TOTAL"></th>
+                                        <th translate="MANAGE"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in saleItems">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.product.name}}</td>
+                                        <td>{{item.price|currency:""}}</td>
+                                        <td>{{item.qty}}</td>
+                                        <td>{{(item.qty * item.price)|currency:''}}</td>
+                                        <td nowrap="nowrap">
+                                            <button type="button" class="btn btn-info" ng-click="editItem(item)">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="deleteItem(item)">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row" ng-show="showList===true && items.totalElements > 0">
         <div class="col-md-12">
             <div class="row">
@@ -187,7 +245,7 @@
                             <tr ng-repeat-start="(v,values) in items.content | groupBy:'paid'">
                                 <td colspan="8" class="bg-info">{{v}}</td>
                             </tr>
-                            <tr  ng-repeat-end ng-repeat="item in values">
+                            <tr ng-repeat-end ng-repeat="item in values">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.saleDate|date:'MMM, dd yyyy'}}</td>
                                 <td>{{item.netAmount|currency:""}}</td>
@@ -196,7 +254,7 @@
                                 <td>{{item.customer.name}}</td>
                                 <td>{{item.receipt}}</td>
                                 <td nowrap="nowrap">
-                                    <button type="button" class="btn btn-success" ng-click="items(item)">
+                                    <button type="button" class="btn btn-success" ng-click="saleItems(item)">
                                         <i class="fa fa-list"></i>
                                     </button>
                                     <button type="button" class="btn btn-info" ng-click="edit(item)">

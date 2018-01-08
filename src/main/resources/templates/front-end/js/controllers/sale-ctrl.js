@@ -1,4 +1,4 @@
-function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
+function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
 
@@ -130,14 +130,16 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,SaleItemServic
         };
     };
 
-    $scope.items = function (sale) {
+    $scope.saleItems = function (sale) {
         $scope.showItems = true;
         $scope.showList = false;
         $scope.showEditForm = false;
         $scope.showAddButton = false;
 
-        SaleService.items({sale_id:sale.id},function (data) {
-            $scope.items = data;
+        SaleService.items({saleId: sale.id}, function (data) {
+            $scope.saleItems = data;
+        }, function (error) {
+            //console.log(error);
         });
 
     };
