@@ -113,20 +113,22 @@
                                 <th>No.</th>
                                 <th>Product</th>
                                 <th>Price</th>
-                                <th>Category</th>
-                                <th>Brand</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="item in items.content">
+                            <tr ng-repeat-start="(c,categories) in items.content | groupBy:'productCategory.name'">
+                                <td colspan="4" class="bg-info">{{c}}</td>
+                            </tr>
+                            <tr ng-repeat-start="(b,brands) in categories | groupBy:'brand.name'">
+                                <td colspan="4" class="bg-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{b}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="item in brands">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.price|currency:""}}</td>
-                                <td>{{item.productCategory.name}}</td>
-                                <td>{{item.brand.name}}</td>
                                 <td nowrap="nowrap">
-                                    <button type="button" class="btn btn-info" ng-click="edit(item)">
+                                    <button type="button" class="btn btn-info" ng-click="edit(item,currentPage,perPage)">
                                         <i class="fa fa-edit"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger" ng-click="delete(item)">
@@ -134,6 +136,7 @@
                                     </button>
                                 </td>
                             </tr>
+                            <tr ng-if="false" ng-repeat-end><td></td></tr>
                             </tbody>
                         </table>
                     </div>

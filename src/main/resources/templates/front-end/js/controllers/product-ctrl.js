@@ -7,7 +7,7 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 6000);
-        $state.reload();
+        //$state.reload();
     };
 
     $scope.alertError = function () {
@@ -15,7 +15,7 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         $timeout(function () {
             $scope.showAlertError = false;
         }, 6000);
-        $state.reload();
+        //$state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -24,12 +24,13 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
     $scope.showAddButton = true;
 
     $scope.currentPage = 0;
-    $scope.maxSize = 3;
+    $scope.maxSize = 4;
 
     $scope.pageChanged = function () {
         var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
         ProductService.paginated({page: pageNumber, perPage: $scope.perPage}, function (data) {
             $scope.items = data;
+            console.log(data);
         });
     };
 
@@ -67,7 +68,7 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel,currentPage, perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
@@ -83,9 +84,11 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
 
 
         $scope.update = function () {
-            ProductService.update($scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            ProductService.update({page: pageNumber, perPage: perPage},$scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
+                    $scope.currentPage = $scope.items.current_page;
                     $scope.alertSuccess();
                 },
                 function (error) {
@@ -128,7 +131,7 @@ ProductCtrl.resolve = {
     DataModel: function (ProductService, $timeout, $q) {
         var deferred = $q.defer();
         $timeout(function () {
-            ProductService.paginated({page: 0, perPage: 5}, function (data) {
+            ProductService.paginated({page: 0, perPage: 10}, function (data) {
                 deferred.resolve(data);
             });
         }, 900);
