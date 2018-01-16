@@ -19,6 +19,16 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+     *
+     * @param page
+     * @param perPage
+     * @return
+     */
+    public Page<Product> paginator(Integer page,Integer perPage) {
+        return productService.getPaginatedProduct(page,perPage);
+    }
+
     // Get All Products
     @GetMapping("/products")
     public List<Product> getAllProducts() {
@@ -28,7 +38,7 @@ public class ProductController {
     //Get all products - paginated
     @GetMapping("/products/paginated")
     public Page<Product> getPaginatedProducts(@RequestParam("page") Integer page,@RequestParam("perPage") Integer perPage) {
-        return productService.getPaginatedProduct(page,perPage);
+        return this.paginator(page,perPage);
     }
 
     // Create a new Product
