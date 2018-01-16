@@ -20,13 +20,12 @@ public class ProductController {
     private ProductService productService;
 
     /**
-     *
      * @param page
      * @param perPage
      * @return
      */
-    public Page<Product> paginator(Integer page,Integer perPage) {
-        return productService.getPaginatedProduct(page,perPage);
+    public Page<Product> paginator(Integer page, Integer perPage) {
+        return productService.getPaginatedProduct(page, perPage);
     }
 
     // Get All Products
@@ -37,8 +36,8 @@ public class ProductController {
 
     //Get all products - paginated
     @GetMapping("/products/paginated")
-    public Page<Product> getPaginatedProducts(@RequestParam("page") Integer page,@RequestParam("perPage") Integer perPage) {
-        return this.paginator(page,perPage);
+    public Page<Product> getPaginatedProducts(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        return this.paginator(page, perPage);
     }
 
     // Create a new Product
@@ -59,19 +58,14 @@ public class ProductController {
 
     // Update a Product
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long productId, @Valid @RequestBody Product productDetails) {
+    public Page<Product> updateProduct(@PathVariable(value = "id") Long productId, @RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage, @Valid @RequestBody Product productDetails) {
         Product product = productService.getProductById(productId);
-        if (product == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         product.setName(productDetails.getName());
         product.setPrice(productDetails.getPrice());
         product.setProductCategory(productDetails.getProductCategory());
         product.setBrand(productDetails.getBrand());
-
-        Product updatedProduct = productService.updateProduct(product);
-        return ResponseEntity.ok(updatedProduct);
+        productService.updateProduct(product);
+        return this.paginator(page,perPage);
     }
 
     // Delete a Product

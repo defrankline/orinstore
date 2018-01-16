@@ -1,5 +1,9 @@
 function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, BrandService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "PRODUCTS";
+
+    $scope.currentPage = 0;
+    $scope.maxSize = 4;
+
     $scope.items = DataModel;
 
     $scope.alertSuccess = function () {
@@ -15,16 +19,26 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         $timeout(function () {
             $scope.showAlertError = false;
         }, 6000);
-        //$state.reload();
+    };
+
+    $scope.close = function (page, perPage) {
+        $scope.showCreateForm = false;
+        $scope.showEditForm = false;
+        $scope.showList = true;
+        $scope.showAddButton = true;
+
+        $scope.currentPage = page + 1;
+
+        ProductService.paginated({page: page, perPage: perPage}, function (data) {
+            $scope.items = data;
+            console.log(data);
+        });
     };
 
     $scope.showCreateForm = false;
     $scope.showEditForm = false;
     $scope.showList = true;
     $scope.showAddButton = true;
-
-    $scope.currentPage = 0;
-    $scope.maxSize = 4;
 
     $scope.pageChanged = function () {
         var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
@@ -68,7 +82,7 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
     };
 
 
-    $scope.edit = function (formDataModel,currentPage, perPage) {
+    $scope.edit = function (formDataModel, currentPage, perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
@@ -85,10 +99,12 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
 
         $scope.update = function () {
             var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
-            ProductService.update({page: pageNumber, perPage: perPage},$scope.formDataModel,
+            ProductService.update({page: pageNumber, perPage: perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
-                    $scope.currentPage = $scope.items.current_page;
+                    $scope.items = data;
+                    $scope.currentPage = $scope.items.number;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
@@ -116,14 +132,6 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
                 console.log("NO");
             });
 
-    };
-
-    $scope.close = function () {
-        $scope.showCreateForm = false;
-        $scope.showEditForm = false;
-        $scope.showList = true;
-        $scope.showAddButton = true;
-        /*$state.reload();*/
     };
 };
 
