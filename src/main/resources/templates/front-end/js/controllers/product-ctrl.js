@@ -11,7 +11,6 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 6000);
-        //$state.reload();
     };
 
     $scope.alertError = function () {
@@ -31,7 +30,6 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
 
         ProductService.paginated({page: page, perPage: perPage}, function (data) {
             $scope.items = data;
-            console.log(data);
         });
     };
 
@@ -44,7 +42,6 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
         ProductService.paginated({page: pageNumber, perPage: $scope.perPage}, function (data) {
             $scope.items = data;
-            console.log(data);
         });
     };
 
@@ -116,21 +113,25 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
     };
 
 
-    $scope.delete = function (item) {
-        ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                ProductService.delete({id: item.id}, function (data) {
-                        $scope.successMessage = "Item Deleted Successfully";
-                        $scope.alertSuccess();
+    $scope.delete = function (item, currentPage, perPage) {
+        ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title)
+            .then(function () {
+                    var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                    ProductService.delete({id: item.id, page: pageNumber, perPage: perPage}, function (data) {
+                            $scope.items = data;
+                            $scope.currentPage = $scope.items.number + 1;
+                            $scope.successMessage = "Item Deleted Successfully";
+                            $scope.alertSuccess();
 
-                    }, function (error) {
-                        $scope.errorMessage = "Item could be deleted!";
-                        $scope.alertError();
-                    }
-                );
-            },
-            function () {
-                console.log("NO");
-            });
+                        }, function (error) {
+                            $scope.errorMessage = "Item could be deleted!";
+                            $scope.alertError();
+                        }
+                    );
+                },
+                function () {
+                    console.log("NO");
+                });
 
     };
 };

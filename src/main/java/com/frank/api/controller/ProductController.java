@@ -70,14 +70,10 @@ public class ProductController {
 
     // Delete a Product
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable(value = "id") Long productId) {
+    public Page<Product> deleteProduct(@PathVariable(value = "id") Long productId,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
         Product product = productService.getProductById(productId);
-        if (product == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         productService.deleteProduct(product);
-        return ResponseEntity.ok().build();
+        return this.paginator(page,perPage);
     }
 
 }
