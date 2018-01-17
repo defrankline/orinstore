@@ -7,5 +7,5 @@ target/
 *.ipr
 build/
 dist/
-/src/main/resources/templates/front-end/bower_components/
-/src/main/resources/templates/front-end/node_modules/
+/src/main/resources/static/bower_components/
+/src/main/resources/static/node_modules/
