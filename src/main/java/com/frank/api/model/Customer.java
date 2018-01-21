@@ -1,7 +1,11 @@
 package com.frank.api.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "customers")
@@ -20,14 +24,25 @@ public class Customer implements Serializable {
     @Column(name = "email", nullable = false,unique = true)
     private String email;
 
+    @Column(updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updatedAt;
+
     public Customer(){
 
     }
 
-    public Customer(String name, String mobile, String email) {
+    public Customer(String name, String mobile, String email, Date createdAt, Date updatedAt) {
         this.name = name;
         this.mobile = mobile;
         this.email = email;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -60,5 +75,21 @@ public class Customer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -34,12 +34,11 @@ public class Product implements Serializable {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
