@@ -16,11 +16,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 "/bower_components/**",
                 "/img/**",
                 "/css/**",
+                "/**",
                 "/js/**")
                 .addResourceLocations(
                         "classpath:/META-INF/resources/webjars/",
                         "classpath:/static/bower_components/",
                         "classpath:/static/img/",
+                        "classpath:/static/",
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
