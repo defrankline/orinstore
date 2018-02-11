@@ -59,27 +59,35 @@
                             <tbody>
                             <tr ng-repeat="item in invoice.items">
                                 <td class="col-md-4">
-                                    <select class="form-control" ui-select2 ng-model="item.product"
-                                            ng-options="itm as itm.name for itm in products"
-                                            style="width: 100%;"></select>
+                                    <md-input-container>
+                                        <md-select style="width:100%;" ng-model="item.product" placeholder="Select a Product">
+                                            <md-option ng-value="opt" ng-repeat="opt in products">{{ opt.name }} - {{ opt.productCategory.name }} - {{ opt.brand.name }}</md-option>
+                                        </md-select>
+                                    </md-input-container>
                                 </td>
-                                <td class="col-md-2"><input type="number" ng-model="item.product.price"
-                                                            ng-value="item.product.price" class="form-control"/></td>
-                                <td class="col-md-2"><input type="number" ng-model="item.qty" class="form-control"/>
+                                <td class="col-md-2">
+                                    <md-input-container>
+                                        <input type="number" ng-model="item.product.price" ng-value="item.product.price" required/>
+                                    </md-input-container>
                                 </td>
-                                <td class="col-md-3"><span class="pull-right">{{(item.qty * item.product.price)|currency:''}}</span>
+                                <td class="col-md-2">
+                                    <md-input-container>
+                                        <input type="number" ng-model="item.qty" required/>
+                                    </md-input-container>
                                 </td>
-                                <td class="col-md-1">
-                                    <button type="button" class="btn btn-danger" ng-click="decart($index)">
+                                <td class="col-md-2"><span class="pull-right">{{(item.qty * item.product.price)|currency:''}}</span>
+                                </td>
+                                <td class="col-md-2">
+                                    <md-button class="md-warn" ng-click="decart($index)">
                                         <i class="fa fa-remove"></i>
-                                    </button>
+                                    </md-button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-primary" ng-click="cart()">
+                                    <md-button class="md-primary" ng-click="cart()">
                                         <i class="fa fa-plus"></i>
-                                    </button>
+                                    </md-button>
                                 </td>
                                 <td></td>
                                 <td translate="NET_AMOUNT"></td>
@@ -194,7 +202,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="item in saleItems">
+                                    <tr ng-repeat="item in itms">
                                         <td>{{$index + 1}}</td>
                                         <td>{{item.product.name}}</td>
                                         <td>{{item.price|currency:""}}</td>

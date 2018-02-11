@@ -1,6 +1,7 @@
 package com.frank.api.controller;
 
 import com.frank.api.Config;
+import com.frank.api.model.Product;
 import com.frank.api.model.Sale;
 import com.frank.api.model.SaleItem;
 import com.frank.api.service.SaleItemService;

@@ -76,4 +76,10 @@ public class ProductController {
         return this.paginator(page,perPage);
     }
 
+    @GetMapping("/products/search")
+    public List<Product> search(@RequestParam("searchText") String searchText) {
+        //search products
+        return productService.searchProducts(searchText);
+    }
+
 }

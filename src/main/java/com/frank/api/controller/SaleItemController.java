@@ -8,10 +8,13 @@ import com.frank.api.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
@@ -77,4 +80,11 @@ public class SaleItemController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/sales/items")
+    public HashMap<String, Object> items(@RequestParam("saleId") Long saleId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", "0");
+        response.put("items", saleItemService.getSaleItems(saleId));
+        return response;
+    }
 }

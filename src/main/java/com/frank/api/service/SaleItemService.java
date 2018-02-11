@@ -47,4 +47,8 @@ public class SaleItemService {
     public void deleteSaleItem(SaleItem saleItem){
         saleItemRepository.delete(saleItem);
     }
+
+    public List<SaleItem> getSaleItems(Long sale_id) {
+        return saleItemRepository.findAllBySaleId(sale_id);
+    }
 }

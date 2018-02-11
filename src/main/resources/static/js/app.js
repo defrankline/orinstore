@@ -1,5 +1,5 @@
 var myApp = angular.module('myApp', ['ui.router','services', 'ngResource', 'angular.filter', 'ngAria', 'ngAnimate','ui.select2',
-    'ngMessages', 'ngLoadingSpinner','ngSanitize', 'ui.bootstrap','pascalprecht.translate', 'ngFileUpload','ngCookies']);
+    'ngMessages', 'ngLoadingSpinner','ngSanitize', 'ui.bootstrap','pascalprecht.translate', 'ngFileUpload','ngCookies','ngMaterial']);
 
 myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
 

@@ -1,4 +1,4 @@
-function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
+function SaleCtrl($scope, DataModel, SaleService, CustomerService,$http, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
 
@@ -7,7 +7,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemServi
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 10000);
-        $state.reload();
+        //$state.reload();
     };
 
     $scope.alertError = function () {
@@ -15,7 +15,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemServi
         $timeout(function () {
             $scope.showAlertError = false;
         }, 10000);
-        $state.reload();
+        //$state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -66,6 +66,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemServi
                 qty: 1
             });
         };
+
         $scope.decart = function (index) {
             $scope.invoice.items.splice(index, 1);
         };
@@ -137,9 +138,10 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, SaleItemServi
         $scope.showAddButton = false;
 
         SaleService.items({saleId: sale.id}, function (data) {
-            $scope.saleItems = data;
+            $scope.itms = data.items;
+            console.log(data);
         }, function (error) {
-            //console.log(error);
+            console.log(error);
         });
 
     };
