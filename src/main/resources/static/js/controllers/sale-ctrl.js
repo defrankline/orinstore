@@ -1,6 +1,48 @@
-function SaleCtrl($scope, DataModel, SaleService, CustomerService,$http, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
+function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
+
+
+    $scope.totalTax = function () {
+        var total = 0;
+        angular.forEach($scope.items.content, function (value, key) {
+            total += parseFloat(value.tax);
+        });
+        return total;
+    };
+
+    $scope.totalNet = function () {
+        var total = 0;
+        angular.forEach($scope.items.content, function (value, key) {
+            total += parseFloat(value.netAmount);
+        });
+        return total;
+    };
+
+    $scope.grossSales = function () {
+        var total = 0;
+        angular.forEach($scope.items.content, function (value, key) {
+            total += parseFloat(value.netAmount + value.tax);
+        });
+        return total;
+    };
+
+    $scope.getTotalGroupBy = function (values) {
+        var total = 0;
+        if (values !== undefined && values.length > 0) {
+            for (var i = 0; i < values.length; i++) {
+                var item = values[i];
+                total += parseFloat(item.tax + item.netAmount);
+            }
+        }
+        return total;
+    };
+
+    $scope.$watch('items', function () {
+        $scope.totalTax();
+        $scope.totalNet();
+        $scope.grossSales();
+    });
 
     $scope.alertSuccess = function () {
         $scope.showAlertSuccess = true;
@@ -136,12 +178,27 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService,$http, SaleIte
         $scope.showList = false;
         $scope.showEditForm = false;
         $scope.showAddButton = false;
+        $scope.sale = sale;
 
         SaleService.items({saleId: sale.id}, function (data) {
             $scope.itms = data.items;
-            console.log(data);
         }, function (error) {
             console.log(error);
+        });
+
+        $scope.saleTotal = function () {
+            var total = 0;
+            for (var i = 0; i < $scope.itms.length; i++) {
+                var item = $scope.itms[i];
+                var price = item.price;
+                var qty = item.qty;
+                total += parseFloat(price*qty);
+            }
+            return total;
+        };
+
+        $scope.$watch('itms', function () {
+            $scope.saleTotal();
         });
 
     };

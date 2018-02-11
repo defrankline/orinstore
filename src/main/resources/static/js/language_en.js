@@ -22,5 +22,6 @@ var translationsEN = {
     SNO:'Sno',
     TAX:'Tax',
     RECEIPT:'Receipt',
+    SALE_ITEMS:'Items',
 };
 

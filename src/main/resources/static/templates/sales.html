@@ -197,8 +197,7 @@
                                         <th translate="PRODUCT"></th>
                                         <th translate="PRICE"></th>
                                         <th translate="QTY"></th>
-                                        <th translate="TOTAL"></th>
-                                        <th translate="MANAGE"></th>
+                                        <th><span class="pull-right"><span translate="TOTAL"></span></span></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -207,15 +206,12 @@
                                         <td>{{item.product.name}}</td>
                                         <td>{{item.price|currency:""}}</td>
                                         <td>{{item.qty}}</td>
-                                        <td>{{(item.qty * item.price)|currency:''}}</td>
-                                        <td nowrap="nowrap">
-                                            <button type="button" class="btn btn-info" ng-click="editItem(item)">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger" ng-click="deleteItem(item)">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                        </td>
+                                        <td><span class="pull-right">{{(item.qty * item.price)|currency:''}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Total</td>
+                                        <td><span class="pull-right"><strong><span translate="TOTAL"></span></strong></span></td>
+                                        <td><span class="pull-right"><strong>{{saleTotal()|currency:""}}</strong></span></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -241,9 +237,9 @@
                             <tr>
                                 <th translate="SNO"></th>
                                 <th translate="DATE"></th>
-                                <th translate="NET_AMOUNT"></th>
-                                <th translate="TAX"></th>
-                                <th translate="TOTAL"></th>
+                                <th><span class="pull-right"><span translate="NET_AMOUNT"></span></span></th>
+                                <th><span class="pull-right"><span translate="TAX"></span></span></th>
+                                <th><span class="pull-right"><span translate="TOTAL"></span></span></th>
                                 <th translate="CUSTOMER"></th>
                                 <th translate="RECEIPT"></th>
                                 <th translate="MANAGE"></th>
@@ -251,14 +247,15 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat-start="(v,values) in items.content | groupBy:'paid'">
-                                <td colspan="8" class="bg-info">{{v}}</td>
+                                <td colspan="7" class="bg-info">{{v}}</td>
+                                <td><span class="pull-right"><strong>{{getTotalGroupBy(values)|currency:""}}</strong></span></td>
                             </tr>
                             <tr ng-repeat-end ng-repeat="item in values">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.saleDate|date:'MMM, dd yyyy'}}</td>
-                                <td>{{item.netAmount|currency:""}}</td>
-                                <td>{{item.tax|currency:""}}</td>
-                                <td>{{(item.tax + item.netAmount)|currency:''}}</td>
+                                <td><span class="pull-right">{{item.netAmount|currency:""}}</span> </td>
+                                <td><span class="pull-right">{{item.tax|currency:""}}</span></td>
+                                <td><span class="pull-right">{{(item.tax + item.netAmount)|currency:''}}</span></td>
                                 <td>{{item.customer.name}}</td>
                                 <td>{{item.receipt}}</td>
                                 <td nowrap="nowrap">
@@ -272,6 +269,15 @@
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total</td>
+                                <td><span class="pull-right"><strong>{{totalNet()|currency:""}}</strong></span></td>
+                                <td><span class="pull-right"><strong>{{totalTax()|currency:""}}</strong></span></td>
+                                <td><span class="pull-right"><strong>{{grossSales()|currency:""}}</strong></span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             </tbody>
                         </table>
