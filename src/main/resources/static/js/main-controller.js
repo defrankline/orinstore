@@ -7,5 +7,9 @@
         $scope.changeLanguage = function (key) {
             $translate.use(key);
         };
+
+        $scope.logout = function () {
+            alert("Logout!");
+        }
     }
 })();

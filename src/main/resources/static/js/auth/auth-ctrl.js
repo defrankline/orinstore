@@ -1,4 +1,4 @@
-function AuthCtrl ($scope,$timeout, AuthService,localStorageService) {
+function AuthCtrl ($scope,$timeout, AuthService,localStorageService,API_URL) {
     $scope.title = "Authentication";
 
     $scope.showAlertSuccess = false;

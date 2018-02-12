@@ -28,3 +28,5 @@ authApp.config(function($stateProvider,$urlRouterProvider) {
 
     $stateProvider.state("otherwise", {url: '/login'});
 });
+
+authApp.constant("API_URL","http://127.0.0.1:9000");
