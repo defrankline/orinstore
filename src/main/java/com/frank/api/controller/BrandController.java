@@ -22,6 +22,7 @@ public class BrandController {
 
     // Get All Brands
     @GetMapping("/brands")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
     public List<Brand> getAllBrands() {
         return brandService.getAllBrands();
     }
