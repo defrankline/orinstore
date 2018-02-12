@@ -10,17 +10,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "brands")
+@Table(name = "user_roles")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Brand implements Serializable {
+public class UserRole implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "role_id", nullable = false)
+    private Long roleId;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,12 +34,13 @@ public class Brand implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Brand(){
+    public UserRole(){
 
     }
 
-    public Brand(String name, Date createdAt, Date updatedAt) {
-        this.name = name;
+    public UserRole(Long userId, Long roleId, Date createdAt, Date updatedAt) {
+        this.userId = userId;
+        this.roleId = roleId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -49,12 +53,20 @@ public class Brand implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public Date getCreatedAt() {

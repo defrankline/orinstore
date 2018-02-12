@@ -39,4 +39,8 @@ public class BrandService {
     public void deleteBrand(Brand brand){
         brandRepository.delete(brand);
     }
+
+    public List<Brand> findAllBrands() {
+        return brandRepository.findAll();
+    }
 }

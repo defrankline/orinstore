@@ -1,4 +1,4 @@
-package com.frank.api;
+package com.frank.api.config;
 
 public class Config {
     public static final Double VAT = 18.00;

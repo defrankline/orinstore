@@ -1,6 +1,6 @@
 package com.frank.api.controller;
 
-import com.frank.api.Config;
+import com.frank.api.config.Config;
 import com.frank.api.model.Customer;
 import com.frank.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

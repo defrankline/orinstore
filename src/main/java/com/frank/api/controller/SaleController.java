@@ -1,9 +1,7 @@
 package com.frank.api.controller;
 
-import com.frank.api.Config;
-import com.frank.api.model.Product;
+import com.frank.api.config.Config;
 import com.frank.api.model.Sale;
-import com.frank.api.model.SaleItem;
 import com.frank.api.service.SaleItemService;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
@@ -11,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

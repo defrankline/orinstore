@@ -6,21 +6,26 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Created by nydiarra on 06/05/17.
+ */
 @Entity
-@Table(name = "brands")
+@Table(name="roles")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Brand implements Serializable {
+public class Role {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name="name")
     private String name;
+
+    @Column(name="description")
+    private String description;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,14 +36,18 @@ public class Brand implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Brand(){
-
+    public Role() {
     }
 
-    public Brand(String name, Date createdAt, Date updatedAt) {
+    public Role(String name, String description, Date createdAt, Date updatedAt) {
         this.name = name;
+        this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Long getId() {
@@ -55,6 +64,14 @@ public class Brand implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreatedAt() {
