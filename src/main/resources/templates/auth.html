@@ -16,7 +16,7 @@
         }
     </style>
 </head>
-<body ng-app="authApp" ng-controller="AuthMainController">
+<body ng-app="authApp">
 
 <div class="container">
     <div class="container">
@@ -29,10 +29,8 @@
 <script type="text/javascript" th:src="@{/bower_components/angular-ui-router/release/angular-ui-router.min.js}"></script>
 <script type="text/javascript" th:src="@{/bower_components/angular-resource/angular-resource.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/auth/auth-app.js}"></script>
-<script type="text/javascript" th:src="@{/js/auth/auth-main-ctrl.js}"></script>
 <script type="text/javascript" th:src="@{/js/auth/auth-ctrl.js}"></script>
 <script type="text/javascript" th:src="@{/js/auth/auth-services.js}"></script>
-<script type="text/javascript" th:src="@{/js/auth/local-storage.js}"></script>
-<script type="text/javascript" th:src="@{/js/auth/local-storage-keys.js}"></script>
+<script type="text/javascript" th:src="@{/bower_components/ngstorage/ngStorage.min.js}"></script>
 </body>
 </html>

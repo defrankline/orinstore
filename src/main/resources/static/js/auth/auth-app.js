@@ -1,4 +1,4 @@
-var authApp = angular.module('authApp', ['ui.router','ngResource','auth-services','orin.localStorage']);
+var authApp = angular.module('authApp', ['ui.router','ngResource','auth-services','ngStorage']);
 
 authApp.config(function($stateProvider,$urlRouterProvider) {
 

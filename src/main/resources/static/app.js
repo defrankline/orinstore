@@ -1,5 +1,5 @@
 var myApp = angular.module('myApp', ['ui.router','services', 'ngResource', 'angular.filter', 'ngAria', 'ngAnimate','ui.select2',
-    'ngMessages', 'ngLoadingSpinner','ngSanitize', 'ui.bootstrap','pascalprecht.translate', 'ngFileUpload','ngCookies','ngMaterial']);
+    'ngMessages', 'ngLoadingSpinner','ngSanitize', 'ui.bootstrap','pascalprecht.translate','ngStorage', 'ngFileUpload','ngCookies','ngMaterial']);
 
 myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
 
@@ -76,6 +76,10 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
 });
 
 myApp.constant("API_URL","http://127.0.0.1:9000");
+myApp.constant("TOKEN_AUTH_USERNAME","testjwtclientid");
+myApp.constant("TOKEN_AUTH_PASSWORD","XY7kmzoNzl100");
+myApp.constant("TOKEN_NAME","access_token");
+myApp.constant("TOKEN_URL","/oauth/token");
 
 myApp.run(function ($window, $rootScope, $interval, PingService) {
     var ping = function () {
