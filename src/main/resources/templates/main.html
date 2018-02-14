@@ -14,6 +14,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{/bower_components/select2/select2.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/bower_components/select2/select2-bootstrap.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/bower_components/angular-material/angular-material.min.css}"/>
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
 </head>
 <body ng-app="myApp" ng-controller="MainController" class="hold-transition skin-blue sidebar-mini">
 <span us-spinner="{radius:30, width:8, length: 16}"></span>
@@ -510,8 +515,7 @@
 <script type="text/javascript" th:src="@{/bower_components/select2/select2.min.js}"></script>
 <script type="text/javascript" th:src="@{/bower_components/angular-ui-select2/src/select2.js}"></script>
 <script type="text/javascript" th:src="@{/bower_components/angular-material/angular-material.min.js}"></script>
-<script type="text/javascript" th:src="@{/bower_components/ngstorage/ngStorage.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/interceptor.js}"></script>
-<script type="text/javascript" th:src="@{/js/auth-token.js}"></script>
+<script type="text/javascript" th:src="@{/js/local-storage.js}"></script>
+<script type="text/javascript" th:src="@{/js/local-storage-keys.js}"></script>
 </body>
 </html>

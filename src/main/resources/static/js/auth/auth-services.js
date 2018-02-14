@@ -1,10 +1,14 @@
 var authService = angular.module('auth-services', ['ngResource']);
 
-var API_URL = "http://127.0.0.1:9000";
-
-authService.factory('AuthService', ['$resource', function ($resource) {
+authService.factory('AuthService', ['$resource','API_URL','TOKEN_AUTH_USERNAME','TOKEN_AUTH_PASSWORD', function ($resource,API_URL,TOKEN_AUTH_USERNAME,TOKEN_AUTH_PASSWORD) {
     return $resource(API_URL+'/api/ping/server', {}, {
-        login: {method: 'POST', url: API_URL+'/api/users/login'},
-        signup: {method: 'POST', url: API_URL+'/api/users/signup'},
+        login: {
+            method: 'POST',
+            url: API_URL+'/oauth/token',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + btoa(TOKEN_AUTH_USERNAME + ':' + TOKEN_AUTH_PASSWORD),
+            }
+        }
     });
 }]);

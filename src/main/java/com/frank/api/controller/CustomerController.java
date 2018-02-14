@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
-public class CustomerController {
+public class CustomerController extends RestBaseController {
 
     @Autowired
     private CustomerService customerService;
