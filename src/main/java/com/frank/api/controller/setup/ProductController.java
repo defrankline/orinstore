@@ -1,6 +1,7 @@
-package com.frank.api.controller;
+package com.frank.api.controller.setup;
 
 import com.frank.api.config.Config;
+import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.Product;
 import com.frank.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
-public class ProductController extends RestBaseController{
+public class ProductController extends RestBaseController {
 
     @Autowired
     private ProductService productService;

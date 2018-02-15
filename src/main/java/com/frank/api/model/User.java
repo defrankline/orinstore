@@ -29,7 +29,6 @@ public class User {
     private String username;
 
     @Column(name = "password")
-    @JsonIgnore
     private String password;
 
     @Column(name = "first_name")
@@ -43,7 +42,7 @@ public class User {
 
     /**
      * Roles are being eagerly loaded here because
-     * they are a fairly small collection of items for this example.
+     * they are a fairly small collection of items.
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
