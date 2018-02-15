@@ -1,5 +1,6 @@
 package com.frank.api.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,6 +13,7 @@ public class MainController {
     }
 
     @RequestMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public String main() {
         return "main";
     }
