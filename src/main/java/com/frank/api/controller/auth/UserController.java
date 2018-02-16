@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +22,14 @@ import java.util.Optional;
 
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/resources")
 public class UserController extends RestBaseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @GetMapping("/user/details")
@@ -42,6 +46,19 @@ public class UserController extends RestBaseController {
             response.put("user", null);
             return response;
         }
+    }
+
+
+    @GetMapping("/user/{id}/password")
+    public HashMap<String, Object> password(@PathVariable(value = "id") Long id) {
+        String new_passwrod = bCryptPasswordEncoder.encode("12345");
+        User user = userService.getUserById(id);
+        user.setPassword(new_passwrod);
+        User updatedUser = userService.updateUser(user);
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", "1");
+        response.put("user", updatedUser);
+        return response;
     }
 
 }
