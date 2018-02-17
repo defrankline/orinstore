@@ -2,8 +2,8 @@ package com.frank.api.controller.setup;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Brand;
-import com.frank.api.service.BrandService;
+import com.frank.api.model.Shop;
+import com.frank.api.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,64 +16,68 @@ import java.util.List;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
-public class BrandController extends RestBaseController {
+public class ShopController extends RestBaseController {
 
     @Autowired
-    private BrandService brandService;
+    private ShopService shopService;
 
-    // Get All Brands
-    @GetMapping("/brands")
-    public List<Brand> getAllBrands() {
-        return brandService.getAllBrands();
+    // Get All Shops
+    @GetMapping("/shops")
+    public List<Shop> getAllShops() {
+        return shopService.getAllShops();
     }
 
-    //Get all Brands - paginated
+    //Get all Shops - paginated
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/brands/paginated")
-    public Page<Brand> getPaginatedBrands(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
-        return brandService.getPaginatedBrands(page,perPage);
+    @GetMapping("/shops/paginated")
+    public Page<Shop> getPaginatedShops(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        return shopService.getPaginatedShops(page,perPage);
     }
 
-    // Create a new Brand
+    // Create a new Shop
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/brands")
-    public Brand createBrand(@Valid @RequestBody Brand brand) {
-        return brandService.createBrand(brand);
+    @PostMapping("/shops")
+    public Shop createShop(@Valid @RequestBody Shop shop) {
+        return shopService.createShop(shop);
     }
 
-    // Get a Single Brand
+    // Get a Single Shop
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/brands/{id}")
-    public ResponseEntity<Brand> getBrandById(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
+    @GetMapping("/shops/{id}")
+    public ResponseEntity<Shop> getShopById(@PathVariable(value = "id") Long shopId) {
+        Shop shop = shopService.getShopById(shopId);
+        if (shop == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(brand);
+        return ResponseEntity.ok().body(shop);
     }
 
-    // Update a Brand
-    @PutMapping("/brands/{id}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable(value = "id") Long brandId, @Valid @RequestBody Brand brandDetails) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
+    // Update a Shop
+    @PutMapping("/shops/{id}")
+    public ResponseEntity<Shop> updateShop(@PathVariable(value = "id") Long shopId, @Valid @RequestBody Shop shopDetails) {
+        Shop shop = shopService.getShopById(shopId);
+        if (shop == null) {
             return ResponseEntity.notFound().build();
         }
 
-        brand.setName(brandDetails.getName());
-        Brand updatedBrand = brandService.updateBrand(brand);
-        return ResponseEntity.ok(updatedBrand);
+        shop.setName(shopDetails.getName());
+        shop.setCode(shopDetails.getCode());
+        shop.setEmail(shopDetails.getEmail());
+        shop.setLandline(shopDetails.getLandline());
+        shop.setMobile(shopDetails.getMobile());
+        Shop updatedShop = shopService.updateShop(shop);
+        return ResponseEntity.ok(updatedShop);
     }
 
-    // Delete a Brand
-    @DeleteMapping("/brands/{id}")
-    public ResponseEntity<Brand> deleteBrand(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
+    // Delete a Shop
+    @DeleteMapping("/shops/{id}")
+    public ResponseEntity<Shop> deleteShop(@PathVariable(value = "id") Long shopId) {
+        Shop shop = shopService.getShopById(shopId);
+        if (shop == null) {
             return ResponseEntity.notFound().build();
         }
 
-        brandService.deleteBrand(brand);
+        shopService.deleteShop(shop);
         return ResponseEntity.ok().build();
     }
 

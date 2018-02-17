@@ -35,12 +35,14 @@ public class BrandController extends RestBaseController {
     }
 
     // Create a new Brand
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/brands")
     public Brand createBrand(@Valid @RequestBody Brand brand) {
         return brandService.createBrand(brand);
     }
 
     // Get a Single Brand
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/brands/{id}")
     public ResponseEntity<Brand> getBrandById(@PathVariable(value = "id") Long brandId) {
         Brand brand = brandService.getBrandById(brandId);

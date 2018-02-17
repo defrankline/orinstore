@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Branch;
-import com.frank.api.repository.BranchRepository;
+import com.frank.api.model.Role;
+import com.frank.api.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,36 +11,32 @@ import java.util.List;
 
 
 @Service
-public class BranchService {
+public class RoleService {
 
     @Autowired
-    private BranchRepository branchRepository;
+    private RoleRepository roleRepository;
 
-    public Branch createBranch(Branch branch) {
-        return branchRepository.save(branch);
+    public Role createRole(Role role) {
+        return roleRepository.save(role);
     }
 
-    public Branch getBranchById(Long id){
-        return branchRepository.findOne(id);
+    public Role getRoleById(Long id){
+        return roleRepository.findOne(id);
     }
 
-    public Branch updateBranch(Branch branch) {
-        return branchRepository.save(branch);
+    public Role updateRole(Role role) {
+        return roleRepository.save(role);
     }
 
-    public List<Branch> getAllBranches() {
-        return branchRepository.findAll();
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
-    public Page<Branch> getPaginatedBranches(Integer page, Integer perPage){
-        return branchRepository.findAll(new PageRequest(page,perPage));
+    public Page<Role> getPaginatedRoles(Integer page, Integer perPage){
+        return roleRepository.findAll(new PageRequest(page,perPage));
     }
 
-    public void deleteBranch(Branch branch){
-        branchRepository.delete(branch);
-    }
-
-    public List<Branch> findAllBranches() {
-        return branchRepository.findAll();
+    public void deleteRole(Role role){
+        roleRepository.delete(role);
     }
 }

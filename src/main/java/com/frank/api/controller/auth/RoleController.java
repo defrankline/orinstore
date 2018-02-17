@@ -1,9 +1,9 @@
-package com.frank.api.controller.setup;
+package com.frank.api.controller.auth;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Brand;
-import com.frank.api.service.BrandService;
+import com.frank.api.model.Role;
+import com.frank.api.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,65 +16,60 @@ import java.util.List;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
-public class BrandController extends RestBaseController {
+public class RoleController extends RestBaseController {
 
     @Autowired
-    private BrandService brandService;
+    private RoleService roleService;
 
-    // Get All Brands
-    @GetMapping("/brands")
-    public List<Brand> getAllBrands() {
-        return brandService.getAllBrands();
+    // Get All Roles
+    @GetMapping("/roles")
+    public List<Role> getAllRoles() {
+        return roleService.getAllRoles();
     }
 
-    //Get all Brands - paginated
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/brands/paginated")
-    public Page<Brand> getPaginatedBrands(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
-        return brandService.getPaginatedBrands(page,perPage);
-    }
-
-    // Create a new Brand
+    //Get all Roles - paginated
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/brands")
-    public Brand createBrand(@Valid @RequestBody Brand brand) {
-        return brandService.createBrand(brand);
+    @GetMapping("/roles/paginated")
+    public Page<Role> getPaginatedRoles(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        return roleService.getPaginatedRoles(page,perPage);
     }
 
-    // Get a Single Brand
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/brands/{id}")
-    public ResponseEntity<Brand> getBrandById(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(brand);
+    // Create a new Role
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/roles")
+    public Page<Role> createRole(@Valid @RequestBody Role role, @RequestParam("perPage") Integer perPage) {
+        roleService.createRole(role);
+        return roleService.getPaginatedRoles(0,perPage);
     }
 
-    // Update a Brand
-    @PutMapping("/brands/{id}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable(value = "id") Long brandId, @Valid @RequestBody Brand brandDetails) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
+    // Get a Single Role
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/roles/{id}")
+    public ResponseEntity<Role> getRoleById(@PathVariable(value = "id") Long roleId) {
+        Role role = roleService.getRoleById(roleId);
+        if (role == null) {
             return ResponseEntity.notFound().build();
         }
-
-        brand.setName(brandDetails.getName());
-        Brand updatedBrand = brandService.updateBrand(brand);
-        return ResponseEntity.ok(updatedBrand);
+        return ResponseEntity.ok().body(role);
     }
 
-    // Delete a Brand
-    @DeleteMapping("/brands/{id}")
-    public ResponseEntity<Brand> deleteBrand(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
-            return ResponseEntity.notFound().build();
-        }
+    // Update a Role
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/roles/{id}")
+    public Page<Role> updateRole(@PathVariable(value = "id") Long roleId, @Valid @RequestBody Role roleDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Role role = roleService.getRoleById(roleId);
+        role.setName(roleDetails.getName());
+        roleService.updateRole(role);
+        return roleService.getPaginatedRoles(page,perPage);
+    }
 
-        brandService.deleteBrand(brand);
-        return ResponseEntity.ok().build();
+    // Delete a Role
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/roles/{id}")
+    public Page<Role> deleteRole(@PathVariable(value = "id") Long roleId,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Role role = roleService.getRoleById(roleId);
+        roleService.deleteRole(role);
+        return roleService.getPaginatedRoles(page,perPage);
     }
 
 }

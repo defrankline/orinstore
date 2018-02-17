@@ -5,6 +5,8 @@ import com.frank.api.model.Role;
 import com.frank.api.model.User;
 import com.frank.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -46,5 +49,21 @@ public class UserService implements UserDetailsService {
 
     public User updateUser(User user) {
         return userRepository.save(user);
+    }
+
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Page<User> getPaginatedUsers(Integer page, Integer perPage){
+        return userRepository.findAll(new PageRequest(page,perPage));
+    }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
     }
 }

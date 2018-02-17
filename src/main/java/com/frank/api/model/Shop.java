@@ -8,12 +8,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "brands")
+@Table(name = "shops")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Brand implements Serializable {
+public class Shop implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +23,21 @@ public class Brand implements Serializable {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "mobile")
+    private String mobile;
+
+    @Column(name = "landline")
+    private String landline;
+
+    @Column(name = "email",nullable = false,unique = true)
+    private String email;
+
+    @Column(name = "code",nullable = false,unique = true)
+    private String code;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop")
+    private Set<Branch> branches = new HashSet();
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,12 +48,17 @@ public class Brand implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Brand(){
+    public Shop(){
 
     }
 
-    public Brand(String name, Date createdAt, Date updatedAt) {
+    public Shop(String name, String mobile, String landline, String email, String code, Set<Branch> branches, Date createdAt, Date updatedAt) {
         this.name = name;
+        this.mobile = mobile;
+        this.landline = landline;
+        this.email = email;
+        this.code = code;
+        this.branches = branches;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -55,6 +77,46 @@ public class Brand implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getLandline() {
+        return landline;
+    }
+
+    public void setLandline(String landline) {
+        this.landline = landline;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Set<Branch> getBranches() {
+        return branches;
+    }
+
+    public void setBranches(Set<Branch> branches) {
+        this.branches = branches;
     }
 
     public Date getCreatedAt() {

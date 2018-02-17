@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Shop;
-import com.frank.api.repository.ShopRepository;
+import com.frank.api.model.Branch;
+import com.frank.api.repository.BranchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,36 +11,32 @@ import java.util.List;
 
 
 @Service
-public class ShopService {
+public class BranchService {
 
     @Autowired
-    private ShopRepository shopRepository;
+    private BranchRepository branchRepository;
 
-    public Shop createShop(Shop shop) {
-        return shopRepository.save(shop);
+    public Branch createBranch(Branch branch) {
+        return branchRepository.save(branch);
     }
 
-    public Shop getShopById(Long id){
-        return shopRepository.findOne(id);
+    public Branch getBranchById(Long id){
+        return branchRepository.findOne(id);
     }
 
-    public Shop updateShop(Shop shop) {
-        return shopRepository.save(shop);
+    public Branch updateBranch(Branch branch) {
+        return branchRepository.save(branch);
     }
 
-    public List<Shop> getAllShops() {
-        return shopRepository.findAll();
+    public List<Branch> getAllBranches() {
+        return branchRepository.findAll();
     }
 
-    public Page<Shop> getPaginatedShops(Integer page, Integer perPage){
-        return shopRepository.findAll(new PageRequest(page,perPage));
+    public Page<Branch> getPaginatedBranches(Integer page, Integer perPage){
+        return branchRepository.findAll(new PageRequest(page,perPage));
     }
 
-    public void deleteShop(Shop shop){
-        shopRepository.delete(shop);
-    }
-
-    public List<Shop> findAllShops() {
-        return shopRepository.findAll();
+    public void deleteBranch(Branch branch){
+        branchRepository.delete(branch);
     }
 }

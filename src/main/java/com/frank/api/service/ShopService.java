@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Brand;
-import com.frank.api.repository.BrandRepository;
+import com.frank.api.model.Shop;
+import com.frank.api.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,36 +11,32 @@ import java.util.List;
 
 
 @Service
-public class BrandService {
+public class ShopService {
 
     @Autowired
-    private BrandRepository brandRepository;
+    private ShopRepository shopRepository;
 
-    public Brand createBrand(Brand brand) {
-        return brandRepository.save(brand);
+    public Shop createShop(Shop shop) {
+        return shopRepository.save(shop);
     }
 
-    public Brand getBrandById(Long id){
-        return brandRepository.findOne(id);
+    public Shop getShopById(Long id){
+        return shopRepository.findOne(id);
     }
 
-    public Brand updateBrand(Brand brand) {
-        return brandRepository.save(brand);
+    public Shop updateShop(Shop shop) {
+        return shopRepository.save(shop);
     }
 
-    public List<Brand> getAllBrands() {
-        return brandRepository.findAll();
+    public List<Shop> getAllShops() {
+        return shopRepository.findAll();
     }
 
-    public Page<Brand> getPaginatedBrands(Integer page, Integer perPage){
-        return brandRepository.findAll(new PageRequest(page,perPage));
+    public Page<Shop> getPaginatedShops(Integer page, Integer perPage){
+        return shopRepository.findAll(new PageRequest(page,perPage));
     }
 
-    public void deleteBrand(Brand brand){
-        brandRepository.delete(brand);
-    }
-
-    public List<Brand> findAllBrands() {
-        return brandRepository.findAll();
+    public void deleteShop(Shop shop){
+        shopRepository.delete(shop);
     }
 }

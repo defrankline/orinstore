@@ -23,7 +23,7 @@ import java.util.Optional;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/resources")
-public class UserController extends RestBaseController {
+public class BackdoorController extends RestBaseController {
 
     @Autowired
     private UserService userService;

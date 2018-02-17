@@ -30,6 +30,10 @@ public class User {
     @Column(name = "active")
     private int active;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -37,15 +41,16 @@ public class User {
     public User() {
     }
 
-    public User(User users) {
-        this.id = users.getId();
-        this.email = users.getEmail();
-        this.username = users.getUsername();
-        this.firstName =users.getFirstName();
-        this.lastName =users.getLastName();
-        this.password = users.getPassword();
-        this.roles = users.getRoles();
-        this.active = users.getActive();
+    public User(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.firstName =user.getFirstName();
+        this.lastName =user.getLastName();
+        this.password = user.getPassword();
+        this.roles = user.getRoles();
+        this.active = user.getActive();
+        this.branch = user.getBranch();
     }
 
     public Long getId() {
@@ -110,5 +115,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 }

@@ -1,13 +1,10 @@
 package com.frank.api.repository;
 
-import com.frank.api.model.Branch;
+import com.frank.api.model.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface BranchRepository extends JpaRepository<Branch, Long> {
-    public List<Branch> findAllByShopId(Long shopId);
-    public Branch findOneByCode(String code);
+public interface ShopRepository extends JpaRepository<Shop, Long> {
+    public Shop findOneByCode(String code);
 }

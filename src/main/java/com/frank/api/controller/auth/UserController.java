@@ -2,8 +2,8 @@ package com.frank.api.controller.auth;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Role;
-import com.frank.api.service.RoleService;
+import com.frank.api.model.User;
+import com.frank.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,66 +16,70 @@ import java.util.List;
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
 @RequestMapping("/api")
-public class RoleController extends RestBaseController {
+public class UserController extends RestBaseController {
 
     @Autowired
-    private RoleService roleService;
+    private UserService userService;
 
-    // Get All Roles
-    @GetMapping("/roles")
-    public List<Role> getAllRoles() {
-        return roleService.getAllRoles();
+    // Get All Users
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    //Get all Roles - paginated
+    //Get all Users - paginated
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/roles/paginated")
-    public Page<Role> getPaginatedRoles(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
-        return roleService.getPaginatedRoles(page,perPage);
+    @GetMapping("/users/paginated")
+    public Page<User> getPaginatedUsers(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        return userService.getPaginatedUsers(page,perPage);
     }
 
-    // Create a new Role
+    // Create a new User
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/roles")
-    public Role createRole(@Valid @RequestBody Role role) {
-        return roleService.createRole(role);
+    @PostMapping("/users")
+    public User createUser(@Valid @RequestBody User user) {
+        return userService.createUser(user);
     }
 
-    // Get a Single Role
+    // Get a Single User
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/roles/{id}")
-    public ResponseEntity<Role> getRoleById(@PathVariable(value = "id") Long roleId) {
-        Role role = roleService.getRoleById(roleId);
-        if (role == null) {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(role);
+        return ResponseEntity.ok().body(user);
     }
 
-    // Update a Role
+    // Update a User
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/roles/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable(value = "id") Long roleId, @Valid @RequestBody Role roleDetails) {
-        Role role = roleService.getRoleById(roleId);
-        if (role == null) {
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
 
-        role.setName(roleDetails.getName());
-        Role updatedRole = roleService.updateRole(role);
-        return ResponseEntity.ok(updatedRole);
+        user.setFirstName(userDetails.getFirstName());
+        user.setLastName(userDetails.getLastName());
+        user.setEmail(userDetails.getEmail());
+        user.setBranch(userDetails.getBranch());
+        user.setActive(userDetails.getActive());
+        User updatedUser = userService.updateUser(user);
+        return ResponseEntity.ok(updatedUser);
     }
 
-    // Delete a Role
+    // Delete a User
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("/roles/{id}")
-    public ResponseEntity<Role> deleteRole(@PathVariable(value = "id") Long roleId) {
-        Role role = roleService.getRoleById(roleId);
-        if (role == null) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable(value = "id") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
 
-        roleService.deleteRole(role);
+        userService.deleteUser(user);
         return ResponseEntity.ok().build();
     }
 
