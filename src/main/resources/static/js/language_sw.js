@@ -22,5 +22,15 @@ var translationsSW = {
     SNO:'Nambari',
     TAX:'Kodi',
     RECEIPT:'Stakabadhi',
+    SALES_MARKETING:'Mauzo & Masoko',
+    PRODUCT_CATEGORIES:'Aina ya bidhaa',
+    BRANDS:'Nembo za Bidhaa',
+    ROLES:'Wajibu',
+    CRM:'Mahusioano na wateja',
+    SETUP:'Mipangilio',
+    SALES:'Mauzo',
+    SAVE:'Hifadhi',
+    CLOSE:'Funga',
+    USER_MANAGEMENT:'Watumiaji wa mfumo',
 };
 

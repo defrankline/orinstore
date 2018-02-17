@@ -23,5 +23,15 @@ var translationsEN = {
     TAX:'Tax',
     RECEIPT:'Receipt',
     SALE_ITEMS:'Items',
+    SALES_MARKETING:'Marketing & Sales',
+    PRODUCT_CATEGORIES:'Product Categories',
+    BRANDS:'Brands',
+    ROLES:'Roles',
+    CRM:'CRM',
+    SETUP:'Setup',
+    SALES:'Sales',
+    SAVE:'Save',
+    CLOSE:'Close',
+    USER_MANAGEMENT:'Users',
 };
 

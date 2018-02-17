@@ -60,6 +60,7 @@
     "angular-translate": "^2.17.0",
     "angular-sanitize": "^1.6.8",
     "iCheck": "icheck#^1.0.2",
-    "angular-ui-select2": "^0.0.5"
+    "angular-ui-select2": "^0.0.5",
+    "angular-translate-storage-cookie": "^2.17.0"
   }
 }

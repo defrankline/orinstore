@@ -7,6 +7,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     $translateProvider.translations('en', translationsEN);
     $translateProvider.translations('sw', translationsSW);
     $translateProvider.preferredLanguage('en');
+    $translateProvider.useCookieStorage();
 
     $urlRouterProvider.otherwise('/home');
 
@@ -27,15 +28,23 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var brandState = {
         name: 'brands',
         url: '/brands',
-        templateUrl: '/templates/brands.html',
+        templateUrl: '/templates/setup/brands.html',
         controller: BrandCtrl,
         resolve: BrandCtrl.resolve,
+    };
+
+    var roleState = {
+        name: 'roles',
+        url: '/roles',
+        templateUrl: '/templates/auth/roles.html',
+        controller: RoleCtrl,
+        resolve: RoleCtrl.resolve,
     };
 
     var productCategoryState = {
         name: 'product-categories',
         url: '/product-categories',
-        templateUrl: '/templates/product-categories.html',
+        templateUrl: '/templates/setup/product-categories.html',
         controller: ProductCategoryCtrl,
         resolve: ProductCategoryCtrl.resolve,
     };
@@ -43,7 +52,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var productState = {
         name: 'products',
         url: '/products',
-        templateUrl: '/templates/products.html',
+        templateUrl: '/templates/setup/products.html',
         controller: ProductCtrl,
         resolve: ProductCtrl.resolve,
     };
@@ -51,7 +60,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var customerState = {
         name: 'customers',
         url: '/customers',
-        templateUrl: '/templates/customers.html',
+        templateUrl: '/templates/sales/customers.html',
         controller: CustomerCtrl,
         resolve: CustomerCtrl.resolve,
     };
@@ -59,7 +68,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var saleState = {
         name: 'sales',
         url: '/sales',
-        templateUrl: '/templates/sales.html',
+        templateUrl: '/templates/sales/sales.html',
         controller: SaleCtrl,
         resolve: SaleCtrl.resolve,
     };
@@ -71,15 +80,12 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     $stateProvider.state(brandState);
     $stateProvider.state(homeState);
     $stateProvider.state(aboutState);
+    $stateProvider.state(roleState);
 
     $stateProvider.state("otherwise", {url: '/home'});
 });
 
 myApp.constant("API_URL","http://127.0.0.1:9000");
-myApp.constant("TOKEN_AUTH_USERNAME","testjwtclientid");
-myApp.constant("TOKEN_AUTH_PASSWORD","XY7kmzoNzl100");
-myApp.constant("TOKEN_NAME","access_token");
-myApp.constant("TOKEN_URL","/oauth/token");
 
 myApp.run(function ($window, $rootScope, $interval, PingService) {
     var ping = function () {

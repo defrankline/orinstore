@@ -42,6 +42,7 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
         ProductService.paginated({page: pageNumber, perPage: $scope.perPage}, function (data) {
             $scope.items = data;
+            console.log(data);
         });
     };
 
