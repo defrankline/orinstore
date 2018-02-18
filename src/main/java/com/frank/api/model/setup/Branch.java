@@ -1,4 +1,4 @@
-package com.frank.api.model;
+package com.frank.api.model.setup;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,14 +8,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "shops")
+@Table(name = "branches")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Shop implements Serializable {
+public class Branch implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,20 +22,21 @@ public class Shop implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "mobile")
-    private String mobile;
-
-    @Column(name = "landline")
-    private String landline;
-
-    @Column(name = "email",nullable = false,unique = true)
+    @Column(name = "email", nullable = false,unique = true)
     private String email;
 
-    @Column(name = "code",nullable = false,unique = true)
+    @Column(name = "code", nullable = false,unique = true)
     private String code;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop")
-    private Set<Branch> branches = new HashSet();
+    @Column(name = "location", nullable = false)
+    private String location;
+
+    @Column(name = "is_headquarter")
+    private Boolean isHeadquarter;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -48,17 +47,17 @@ public class Shop implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Shop(){
+    public Branch() {
 
     }
 
-    public Shop(String name, String mobile, String landline, String email, String code, Set<Branch> branches, Date createdAt, Date updatedAt) {
+    public Branch(String name, String email, String code, String location, Boolean isHeadquarter, Shop shop, Date createdAt, Date updatedAt) {
         this.name = name;
-        this.mobile = mobile;
-        this.landline = landline;
         this.email = email;
         this.code = code;
-        this.branches = branches;
+        this.location = location;
+        this.isHeadquarter = isHeadquarter;
+        this.shop = shop;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -79,22 +78,6 @@ public class Shop implements Serializable {
         this.name = name;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getLandline() {
-        return landline;
-    }
-
-    public void setLandline(String landline) {
-        this.landline = landline;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -111,12 +94,28 @@ public class Shop implements Serializable {
         this.code = code;
     }
 
-    public Set<Branch> getBranches() {
-        return branches;
+    public String getLocation() {
+        return location;
     }
 
-    public void setBranches(Set<Branch> branches) {
-        this.branches = branches;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Boolean getHeadquarter() {
+        return isHeadquarter;
+    }
+
+    public void setHeadquarter(Boolean headquarter) {
+        isHeadquarter = headquarter;
     }
 
     public Date getCreatedAt() {

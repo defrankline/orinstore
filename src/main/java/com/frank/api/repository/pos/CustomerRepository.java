@@ -1,11 +1,10 @@
-package com.frank.api.repository;
+package com.frank.api.repository.pos;
 
-import com.frank.api.model.Customer;
+import com.frank.api.model.pos.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-
 
 }

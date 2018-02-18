@@ -1,4 +1,4 @@
-package com.frank.api.model;
+package com.frank.api.model.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,4 +1,4 @@
-package com.frank.api.model;
+package com.frank.api.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;

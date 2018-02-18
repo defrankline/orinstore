@@ -2,7 +2,7 @@ package com.frank.api.controller.auth;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Role;
+import com.frank.api.model.auth.Role;
 import com.frank.api.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

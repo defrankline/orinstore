@@ -2,7 +2,7 @@ package com.frank.api.controller.setup;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Shop;
+import com.frank.api.model.setup.Shop;
 import com.frank.api.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

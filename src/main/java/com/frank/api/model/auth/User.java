@@ -1,4 +1,6 @@
-package com.frank.api.model;
+package com.frank.api.model.auth;
+
+import com.frank.api.model.setup.Branch;
 
 import javax.persistence.*;
 import java.util.Set;

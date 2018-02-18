@@ -1,8 +1,8 @@
-package com.frank.api.controller.sale;
+package com.frank.api.controller.pos;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.SaleItem;
+import com.frank.api.model.pos.SaleItem;
 import com.frank.api.service.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,15 +1,21 @@
-package com.frank.api.model;
+package com.frank.api.model.setup;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "customers")
-public class Customer implements Serializable {
+@Table(name = "shops")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
+public class Shop implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,11 +24,20 @@ public class Customer implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "mobile", nullable = false)
+    @Column(name = "mobile")
     private String mobile;
 
-    @Column(name = "email", nullable = false,unique = true)
+    @Column(name = "landline")
+    private String landline;
+
+    @Column(name = "email",nullable = false,unique = true)
     private String email;
+
+    @Column(name = "code",nullable = false,unique = true)
+    private String code;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop")
+    private Set<Branch> branches = new HashSet();
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,14 +48,17 @@ public class Customer implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Customer(){
+    public Shop(){
 
     }
 
-    public Customer(String name, String mobile, String email, Date createdAt, Date updatedAt) {
+    public Shop(String name, String mobile, String landline, String email, String code, Set<Branch> branches, Date createdAt, Date updatedAt) {
         this.name = name;
         this.mobile = mobile;
+        this.landline = landline;
         this.email = email;
+        this.code = code;
+        this.branches = branches;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -69,12 +87,36 @@ public class Customer implements Serializable {
         this.mobile = mobile;
     }
 
+    public String getLandline() {
+        return landline;
+    }
+
+    public void setLandline(String landline) {
+        this.landline = landline;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Set<Branch> getBranches() {
+        return branches;
+    }
+
+    public void setBranches(Set<Branch> branches) {
+        this.branches = branches;
     }
 
     public Date getCreatedAt() {

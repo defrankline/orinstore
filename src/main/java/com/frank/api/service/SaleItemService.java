@@ -1,13 +1,10 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Sale;
-import com.frank.api.model.SaleItem;
-import com.frank.api.repository.SaleItemRepository;
-import com.frank.api.repository.SaleItemRepository;
+import com.frank.api.model.pos.SaleItem;
+import com.frank.api.repository.pos.SaleItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +13,8 @@ import java.util.List;
 @Service
 public class SaleItemService {
 
-
-    private SaleItemRepository saleItemRepository;
-
     @Autowired
-    public SaleItemService(SaleItemRepository saleItemRepository) {
-        this.saleItemRepository = saleItemRepository;
-    }
+    private SaleItemRepository saleItemRepository;
 
     public SaleItem createSaleItem(SaleItem saleItem) {
         return saleItemRepository.save(saleItem);

@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Brand;
-import com.frank.api.repository.BrandRepository;
+import com.frank.api.model.setup.Brand;
+import com.frank.api.repository.setup.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

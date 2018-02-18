@@ -1,20 +1,15 @@
-package com.frank.api.model;
+package com.frank.api.model.pos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "product_categories")
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
-public class ProductCategory implements Serializable {
+@Table(name = "customers")
+public class Customer implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +17,12 @@ public class ProductCategory implements Serializable {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "mobile", nullable = false)
+    private String mobile;
+
+    @Column(name = "email", nullable = false,unique = true)
+    private String email;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -32,12 +33,14 @@ public class ProductCategory implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public ProductCategory(){
+    public Customer(){
 
     }
 
-    public ProductCategory(String name, Date createdAt, Date updatedAt) {
+    public Customer(String name, String mobile, String email, Date createdAt, Date updatedAt) {
         this.name = name;
+        this.mobile = mobile;
+        this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -56,6 +59,22 @@ public class ProductCategory implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getCreatedAt() {

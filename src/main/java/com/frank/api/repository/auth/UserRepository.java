@@ -1,11 +1,11 @@
-package com.frank.api.repository;
+package com.frank.api.repository.auth;
 
 
-import com.frank.api.model.User;
+import com.frank.api.model.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 }

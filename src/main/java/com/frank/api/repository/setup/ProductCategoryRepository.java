@@ -1,6 +1,6 @@
-package com.frank.api.repository;
+package com.frank.api.repository.setup;
 
-import com.frank.api.model.ProductCategory;
+import com.frank.api.model.setup.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

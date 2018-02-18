@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.ProductCategory;
-import com.frank.api.repository.ProductCategoryRepository;
+import com.frank.api.model.setup.ProductCategory;
+import com.frank.api.repository.setup.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

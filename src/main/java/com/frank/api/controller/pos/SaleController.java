@@ -1,8 +1,8 @@
-package com.frank.api.controller.sale;
+package com.frank.api.controller.pos;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Sale;
+import com.frank.api.model.pos.Sale;
 import com.frank.api.service.SaleItemService;
 import com.frank.api.service.SaleService;
 import com.frank.api.utils.RandomString;
@@ -23,9 +23,6 @@ public class SaleController extends RestBaseController {
 
     @Autowired
     private SaleService saleService;
-    private SaleItemService saleItemService;
-
-    private final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
     // Get All Sales
     @GetMapping("/sales")

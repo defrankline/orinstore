@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Branch;
-import com.frank.api.repository.BranchRepository;
+import com.frank.api.model.setup.Branch;
+import com.frank.api.repository.setup.BranchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

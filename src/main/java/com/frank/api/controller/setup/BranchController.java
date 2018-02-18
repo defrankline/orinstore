@@ -2,7 +2,7 @@ package com.frank.api.controller.setup;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Branch;
+import com.frank.api.model.setup.Branch;
 import com.frank.api.service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

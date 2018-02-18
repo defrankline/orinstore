@@ -1,7 +1,7 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Product;
-import com.frank.api.repository.ProductRepository;
+import com.frank.api.model.setup.Product;
+import com.frank.api.repository.setup.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,12 +14,8 @@ import java.util.List;
 public class ProductService {
 
 
-    private ProductRepository productRepository;
-
     @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private ProductRepository productRepository;
 
     public Product createProduct(Product product) {
         return productRepository.save(product);

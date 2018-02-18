@@ -1,9 +1,8 @@
 package com.frank.api.service;
 
-import com.frank.api.model.Product;
-import com.frank.api.model.Role;
-import com.frank.api.model.User;
-import com.frank.api.repository.UserRepository;
+import com.frank.api.model.auth.Role;
+import com.frank.api.model.auth.User;
+import com.frank.api.repository.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
