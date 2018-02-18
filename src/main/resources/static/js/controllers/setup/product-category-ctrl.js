@@ -1,5 +1,5 @@
-function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout, $state, ConfirmDialogService) {
-    $scope.title = "Product Categories";
+function ProductCategoryCtrl($scope, DataModel, ProductCategoryService, $timeout, $state, ConfirmDialogService) {
+    $scope.title = "PRODUCT_CATEGORIES";
     $scope.items = DataModel;
 
     $scope.alertSuccess = function () {
@@ -7,7 +7,6 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.alertError = function () {
@@ -15,7 +14,6 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
         $timeout(function () {
             $scope.showAlertError = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -41,16 +39,18 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
         $scope.formDataModel = {};
 
         $scope.store = function () {
-            ProductCategoryService.save($scope.formDataModel,
+            ProductCategoryService.save({perPage: $scope.perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item Added Successfully";
                     $scope.showCreateForm = false;
+                    $scope.items = data;
                     $scope.showList = true;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item could be added!";
                     $scope.alertError();
                 }
@@ -59,19 +59,23 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel, currentPage, perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
         $scope.formDataModel = angular.copy(formDataModel);
 
         $scope.update = function () {
-            ProductCategoryService.update($scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            ProductCategoryService.update({page: pageNumber, perPage: perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
+                    $scope.items = data;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item Could not be deleted!";
                     $scope.alertError();
                 }
@@ -80,13 +84,15 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
     };
 
 
-    $scope.delete = function (item) {
+    $scope.delete = function (item, currentPage, perPage) {
         ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                ProductCategoryService.delete({id: item.id}, function (data) {
+                var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                ProductCategoryService.delete({id: item.id, page: pageNumber, perPage: perPage}, function (data) {
+                        $scope.items = data;
+                        $scope.currentPage = $scope.items.number + 1;
                         $scope.successMessage = "Item Deleted Successfully";
-                        $scope.alertSuccess();
-
                     }, function (error) {
+                        console.log(error);
                         $scope.errorMessage = "Item could be deleted!";
                         $scope.alertError();
                     }
@@ -98,14 +104,19 @@ function ProductCategoryCtrl($scope, DataModel,ProductCategoryService, $timeout,
 
     };
 
-    $scope.close = function () {
+    $scope.close = function (page, perPage) {
         $scope.showCreateForm = false;
         $scope.showEditForm = false;
         $scope.showList = true;
         $scope.showAddButton = true;
-        /*$state.reload();*/
+
+        $scope.currentPage = page + 1;
+
+        ProductCategoryService.paginated({page: page, perPage: perPage}, function (data) {
+            $scope.items = data;
+        });
     };
-};
+}
 
 ProductCategoryCtrl.resolve = {
     DataModel: function (ProductCategoryService, $timeout, $q) {

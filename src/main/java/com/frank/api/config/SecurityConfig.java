@@ -1,7 +1,7 @@
 package com.frank.api.config;
 
-import com.frank.api.repository.UserRepository;
-import com.frank.api.service.UserService;
+import com.frank.api.repository.auth.UserRepository;
+import com.frank.api.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

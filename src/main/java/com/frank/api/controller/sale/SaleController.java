@@ -2,18 +2,19 @@ package com.frank.api.controller.sale;
 
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
-import com.frank.api.model.Sale;
-import com.frank.api.service.SaleItemService;
-import com.frank.api.service.SaleService;
-import com.frank.api.utils.RandomString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.frank.api.model.sales.Sale;
+import com.frank.api.model.sales.SaleItem;
+import com.frank.api.service.sales.SaleItemService;
+import com.frank.api.service.sales.SaleService;
+import com.frank.api.helper.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
@@ -23,9 +24,9 @@ public class SaleController extends RestBaseController {
 
     @Autowired
     private SaleService saleService;
-    private SaleItemService saleItemService;
 
-    private final Logger logger = LoggerFactory.getLogger(SaleController.class);
+    @Autowired
+    private SaleItemService saleItemService;
 
     // Get All Sales
     @GetMapping("/sales")
@@ -33,17 +34,18 @@ public class SaleController extends RestBaseController {
         return saleService.getAllSales();
     }
 
-    //Get all sales - paginated
+    //Get all Sales - paginated
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
     @GetMapping("/sales/paginated")
     public Page<Sale> getPaginatedSales(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
-        return saleService.getPaginatedSale(page,perPage);
+        return saleService.getPaginatedSales(page,perPage);
     }
 
     // Create a new Sale
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('SALES_PERSON') ")
     @PostMapping("/sales")
-    public ResponseEntity createSale(@Valid @RequestBody Sale sale) {
+    public Page<Sale> createSale(@Valid @RequestBody Sale sale, @RequestParam("perPage") Integer perPage) {
         RandomString randomString = new RandomString();
-        Double vat = Config.VAT;
         String receipt = randomString.randomString(16);
         sale.setReceipt(receipt);
         sale.setNetAmount(sale.getNetAmount());
@@ -52,32 +54,26 @@ public class SaleController extends RestBaseController {
         sale.setPaid(sale.getPaid());
         sale.setCustomer(sale.getCustomer());
         sale.setCreatedAt(sale.getCreatedAt());
-        if(saleService.createSale(sale) == null){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return ResponseEntity.ok().body(saleService.createSale(sale));
+        saleService.createSale(sale);
+        return saleService.getPaginatedSales(0,perPage);
     }
 
     // Get a Single Sale
+    @PreAuthorize("hasAuthority('MANAGER')or hasAuthority('SALES_PERSON')")
     @GetMapping("/sales/{id}")
-    public ResponseEntity<Sale> getSaleById(@PathVariable(value = "id") Long saleId) {
-        Sale sale = saleService.getSaleById(saleId);
+    public ResponseEntity<Sale> getSaleById(@PathVariable(value = "id") Long id) {
+        Sale sale = saleService.getSaleById(id);
         if (sale == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(sale);
     }
 
-    // Update a Sale
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
     @PutMapping("/sales/{id}")
-    public ResponseEntity<Sale> updateSale(@PathVariable(value = "id") Long saleId, @Valid @RequestBody Sale saleDetails) {
-        Sale sale = saleService.getSaleById(saleId);
-        if (sale == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Sale> updateSale(@PathVariable(value = "id") Long id, @Valid @RequestBody Sale saleDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Sale sale = saleService.getSaleById(id);
         RandomString randomString = new RandomString();
-
         String receipt = randomString.randomString(16);
         sale.setReceipt(receipt);
         sale.setNetAmount(saleDetails.getNetAmount());
@@ -85,20 +81,30 @@ public class SaleController extends RestBaseController {
         sale.setSaleDate(saleDetails.getSaleDate());
         sale.setPaid(saleDetails.getPaid());
         sale.setCustomer(saleDetails.getCustomer());
-
-        Sale updatedSale = saleService.updateSale(sale);
-        return ResponseEntity.ok(updatedSale);
+        saleService.updateSale(sale);
+        return saleService.getPaginatedSales(page,perPage);
     }
 
-    // Delete a Sale
+    @PreAuthorize("hasAuthority('MANAGER')")
     @DeleteMapping("/sales/{id}")
-    public ResponseEntity<Sale> deleteSale(@PathVariable(value = "id") Long saleId) {
-        Sale sale = saleService.getSaleById(saleId);
-        if (sale == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Sale> deleteSale(@PathVariable(value = "id") Long id,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Sale sale = saleService.getSaleById(id);
         saleService.deleteSale(sale);
-        return ResponseEntity.ok().build();
+        return saleService.getPaginatedSales(page,perPage);
     }
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
+    @GetMapping("/sales/items")
+    public HashMap<String, Object> items(@RequestParam("id") Long id) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", "0");
+        response.put("items", saleItemService.getSaleItems(id));
+        return response;
+    }
+    
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
+    @PostMapping("/sale-items")
+    public SaleItem createSaleItem(@Valid @RequestBody SaleItem saleItem) {
+        return saleItemService.createSaleItem(saleItem);
+    }
+
 }

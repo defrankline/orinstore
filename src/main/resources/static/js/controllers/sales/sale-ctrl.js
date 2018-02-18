@@ -49,7 +49,6 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 10000);
-        //$state.reload();
     };
 
     $scope.alertError = function () {
@@ -57,7 +56,6 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
         $timeout(function () {
             $scope.showAlertError = false;
         }, 10000);
-        //$state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -139,8 +137,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
                 'customer': $scope.formDataModel.customer,
                 'paid': $scope.formDataModel.paid,
             };
-            //console.log($scope.postData);
-            SaleService.save($scope.sale,
+            SaleService.save({perPage: $scope.perPage},$scope.sale,
                 function (data) {
                     angular.forEach($scope.invoice.items, function (item) {
                         $scope.saleItems = {
@@ -161,6 +158,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
                     $scope.successMessage = "Sale Recorded Successfully";
                     $scope.showCreateForm = false;
                     $scope.showList = true;
+                    $scope.items = data;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();
@@ -192,7 +190,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
                 var item = $scope.itms[i];
                 var price = item.price;
                 var qty = item.qty;
-                total += parseFloat(price*qty);
+                total += parseFloat(price * qty);
             }
             return total;
         };
@@ -204,7 +202,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel,currentPage,perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
@@ -215,9 +213,13 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
         });
 
         $scope.update = function () {
-            SaleService.update($scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            SaleService.update({page: pageNumber, perPage: perPage},$scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Sale Record updated successfully!";
+                    $scope.items = data;
+                    $scope.currentPage = $scope.items.number;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
@@ -229,9 +231,12 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
     };
 
 
-    $scope.delete = function (item) {
+    $scope.delete = function (item, currentPage, perPage) {
         ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                SaleService.delete({id: item.id}, function (data) {
+                var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                SaleService.delete({id: item.id, page: pageNumber, perPage: perPage}, function (data) {
+                        $scope.items = data;
+                        $scope.currentPage = $scope.items.number + 1;
                         $scope.successMessage = "Item Deleted Successfully";
                         $scope.alertSuccess();
 
@@ -247,12 +252,17 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
 
     };
 
-    $scope.close = function () {
+    $scope.close = function (page, perPage) {
         $scope.showCreateForm = false;
         $scope.showEditForm = false;
         $scope.showItems = false;
         $scope.showList = true;
         $scope.showAddButton = true;
+
+        $scope.currentPage = page + 1;
+        SaleService.paginated({page: page, perPage: perPage}, function (data) {
+            $scope.items = data;
+        });
     };
 };
 

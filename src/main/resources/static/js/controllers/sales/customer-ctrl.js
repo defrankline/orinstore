@@ -1,4 +1,4 @@
-function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, ConfirmDialogService) {
+function CustomerCtrl($scope, DataModel, CustomerService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "CUSTOMERS";
     $scope.items = DataModel;
 
@@ -7,7 +7,6 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.alertError = function () {
@@ -15,7 +14,6 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
         $timeout(function () {
             $scope.showAlertError = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -42,15 +40,17 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
 
         $scope.store = function () {
 
-            CustomerService.save($scope.formDataModel, function (data) {
+            CustomerService.save({perPage: $scope.perPage},$scope.formDataModel, function (data) {
                     $scope.successMessage = "Item Added Successfully";
                     $scope.showCreateForm = false;
                     $scope.showList = true;
+                    $scope.items = data;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item could be added!";
                     $scope.alertError();
                 }
@@ -59,16 +59,20 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel,currentPage,perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
         $scope.formDataModel = angular.copy(formDataModel);
 
         $scope.update = function () {
-            CustomerService.update($scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            CustomerService.update({page: pageNumber, perPage: perPage},$scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
+                    $scope.items = data;
+                    $scope.currentPage = $scope.items.number;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
@@ -80,10 +84,13 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
     };
 
 
-    $scope.delete = function (item) {
+    $scope.delete = function (item,currentPage, perPage) {
         ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                CustomerService.delete({id: item.id}, function (data) {
+                var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                CustomerService.delete({id: item.id,page: pageNumber, perPage: perPage}, function (data) {
                         $scope.successMessage = "Item Deleted Successfully";
+                        $scope.items = data;
+                        $scope.currentPage = $scope.items.number + 1;
                         $scope.alertSuccess();
 
                     }, function (error) {
@@ -98,14 +105,18 @@ function CustomerCtrl($scope, DataModel,CustomerService, $timeout, $state, Confi
 
     };
 
-    $scope.close = function () {
+    $scope.close = function (page,perPage) {
         $scope.showCreateForm = false;
         $scope.showEditForm = false;
         $scope.showList = true;
         $scope.showAddButton = true;
-        /*$state.reload();*/
+
+        $scope.currentPage = page + 1;
+        CustomerService.paginated({page: page, perPage: perPage}, function (data) {
+            $scope.items = data;
+        });
     };
-};
+}
 
 CustomerCtrl.resolve = {
     DataModel: function (CustomerService, $timeout, $q) {

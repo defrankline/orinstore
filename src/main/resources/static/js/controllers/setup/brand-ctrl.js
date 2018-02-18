@@ -1,5 +1,5 @@
-function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDialogService) {
-    $scope.title = "Brands";
+function BrandCtrl($scope, DataModel, BrandService, $timeout, $state, ConfirmDialogService) {
+    $scope.title = "BRANDS";
     $scope.items = DataModel;
 
     $scope.alertSuccess = function () {
@@ -7,7 +7,6 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
         $timeout(function () {
             $scope.showAlertSuccess = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.alertError = function () {
@@ -15,7 +14,6 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
         $timeout(function () {
             $scope.showAlertError = false;
         }, 6000);
-        $state.reload();
     };
 
     $scope.showCreateForm = false;
@@ -41,16 +39,18 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
         $scope.formDataModel = {};
 
         $scope.store = function () {
-            BrandService.save($scope.formDataModel,
+            BrandService.save({perPage: $scope.perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item Added Successfully";
                     $scope.showCreateForm = false;
                     $scope.showList = true;
+                    $scope.items = data;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item could be added!";
                     $scope.alertError();
                 }
@@ -59,19 +59,24 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel, currentPage, perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
         $scope.formDataModel = angular.copy(formDataModel);
 
         $scope.update = function () {
-            BrandService.update($scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            BrandService.update({page: pageNumber, perPage: perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
+                    $scope.items = data;
+                    $scope.currentPage = $scope.items.number;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item Could not be deleted!";
                     $scope.alertError();
                 }
@@ -80,13 +85,17 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
     };
 
 
-    $scope.delete = function (item) {
+    $scope.delete = function (item, currentPage, perPage) {
         ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                BrandService.delete({id: item.id}, function (data) {
+                var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                BrandService.delete({id: item.id, page: pageNumber, perPage: perPage}, function (data) {
                         $scope.successMessage = "Item Deleted Successfully";
+                        $scope.items = data;
+                        $scope.currentPage = $scope.items.number + 1;
                         $scope.alertSuccess();
 
                     }, function (error) {
+                        console.log(error)
                         $scope.errorMessage = "Item could be deleted!";
                         $scope.alertError();
                     }
@@ -98,12 +107,16 @@ function BrandCtrl($scope, DataModel,BrandService, $timeout, $state, ConfirmDial
 
     };
 
-    $scope.close = function () {
+    $scope.close = function (page, perPage) {
         $scope.showCreateForm = false;
         $scope.showEditForm = false;
         $scope.showList = true;
         $scope.showAddButton = true;
-        /*$state.reload();*/
+
+        $scope.currentPage = page + 1;
+        BrandService.paginated({page: page, perPage: perPage}, function (data) {
+            $scope.items = data;
+        });
     };
 };
 

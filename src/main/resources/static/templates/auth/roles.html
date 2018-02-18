@@ -108,7 +108,7 @@
             <total-pages currentPage="{{currentPage + 1}}" totalItems="{{ items.totalElements }}"
                          perPage="{{ items.size }}"></total-pages>
         </div>
-        <div class="col-md-2" ng-show="items.totalElements > items.size">
+        <div class="col-md-2">
             <div class="pull-right">
                 <per-page ng-model="perPage" ng-change="pageChanged()"></per-page>
             </div>

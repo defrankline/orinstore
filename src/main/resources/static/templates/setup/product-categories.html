@@ -1,4 +1,4 @@
-<pagetitle title="{{title}}"></pagetitle>
+<pagetitle title="{{title|translate}}"></pagetitle>
 <div class="box-body">
     <div class="row">
         <div ng-show="showAlertSuccess" class="col-md-12">
@@ -16,19 +16,19 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Create</h3>
+                    <h3 class="box-title" translate="CREATE"></h3>
                 </div>
                 <form role="form" name="formData" novalidate>
                     <div class="box-body">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label translate="NAME"></label>
                             <input type="text" class="form-control" ng-model="formDataModel.name">
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <button type="button" ng-click="store()" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i> Close</button>
+                        <button type="button" ng-click="store()" class="btn btn-primary"><i class="fa fa-save"></i> <span translate="SAVE"></span></button>
+                        <button type="button" ng-click="close(currentPage - 1,perPage)" class="btn btn-warning"><i class="fa fa-times"></i> <span translate="CLOSE"></span></button>
                     </div>
                 </form>
             </div>
@@ -38,19 +38,19 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Update</h3>
+                    <h3 class="box-title" translate="UPDATE"></h3>
                 </div>
                 <form role="form" name="formData" novalidate>
                     <div class="box-body">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label translate="NAME"></label>
                             <input type="text" class="form-control" ng-model="formDataModel.name">
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <button type="button" ng-click="update()" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i> Close</button>
+                        <button type="button" ng-click="update()" class="btn btn-primary"><i class="fa fa-save"></i> <span translate="SAVE"></span></button>
+                        <button type="button" ng-click="close(currentPage - 1,perPage)" class="btn btn-warning"><i class="fa fa-times"></i> <span translate="CLOSE"></span></button>
                     </div>
                 </form>
             </div>
@@ -70,9 +70,9 @@
                         <table class="table table-hover table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Category</th>
-                                <th>Actions</th>
+                                <th translate="SNO"></th>
+                                <th translate="CATEGORY"></th>
+                                <th translate="MANAGE"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -80,10 +80,10 @@
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.name}}</td>
                                 <td nowrap="nowrap">
-                                    <button type="button" class="btn btn-info" ng-click="edit(item)">
+                                    <button type="button" class="btn btn-info" ng-click="edit(item,currentPage,perPage)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" ng-click="delete(item)">
+                                    <button type="button" class="btn btn-danger" ng-click="delete(item,currentPage,perPage)">
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </td>
