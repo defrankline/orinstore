@@ -1,4 +1,4 @@
-package com.frank.api.model.sales;
+package com.frank.api.model.sale;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.frank.api.model.setup.Product;

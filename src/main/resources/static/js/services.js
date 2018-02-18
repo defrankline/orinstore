@@ -52,21 +52,10 @@ services.factory('CustomerService', ['$resource', function ($resource) {
 }]);
 
 services.factory('SaleService', ['$resource', function ($resource) {
-    return $resource(API_URL + '/api/sales/:id', {}, {
+    return $resource(API_URL + '/api/sale/:id', {}, {
         update: {method: 'PUT', params: {id: '@id'}},
-        paginated: {method: 'GET', params: {page: '@page', perPage: '@perPage'}, url: API_URL + '/api/sales/paginated'},
-        items: {method: 'GET', params: {saleId: '@saleId'}, url: API_URL + '/api/sales/items'},
-    });
-}]);
-
-services.factory('SaleItemService', ['$resource', function ($resource) {
-    return $resource(API_URL + '/api/saleItems/:id', {}, {
-        update: {method: 'PUT', params: {id: '@id'}},
-        paginated: {
-            method: 'GET',
-            params: {page: '@page', perPage: '@perPage'},
-            url: API_URL + '/api/saleItems/paginated'
-        }
+        paginated: {method: 'GET', params: {page: '@page', perPage: '@perPage'}, url: API_URL + '/api/sale/paginated'},
+        items: {method: 'GET', params: {saleId: '@saleId'}, url: API_URL + '/api/sale/items'},
     });
 }]);
 
