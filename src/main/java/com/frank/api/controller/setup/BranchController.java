@@ -56,7 +56,6 @@ public class BranchController extends RestBaseController {
         branch.setName(branchDetails.getName());
         branch.setCode(branchDetails.getCode());
         branch.setHeadquarter(branchDetails.getHeadquarter());
-        branch.setLocation(branchDetails.getLocation());
         branch.setShop(branchDetails.getShop());
         branchService.updateBranch(branch);
         return branchService.getPaginatedBranches(page,perPage);

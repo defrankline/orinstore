@@ -3,12 +3,10 @@ package com.frank.api.controller.pos;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.pos.Sale;
-import com.frank.api.service.sale.SaleItemService;
-import com.frank.api.service.sale.SaleService;
+import com.frank.api.service.pos.SaleService;
 import com.frank.api.helper.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

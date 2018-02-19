@@ -3,7 +3,7 @@ package com.frank.api.controller.pos;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.pos.SaleItem;
-import com.frank.api.service.sale.SaleItemService;
+import com.frank.api.service.pos.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

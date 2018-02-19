@@ -1,4 +1,4 @@
-package com.frank.api.service.sale;
+package com.frank.api.service.pos;
 
 import com.frank.api.model.pos.Sale;
 import com.frank.api.repository.pos.SaleRepository;
