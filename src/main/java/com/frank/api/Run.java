@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @EnableJpaRepositories
+@EnableAutoConfiguration
 public class Run {
 
 	public static void main(String[] args) {

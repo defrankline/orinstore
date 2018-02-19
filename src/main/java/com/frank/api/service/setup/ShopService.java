@@ -1,4 +1,4 @@
-package com.frank.api.service;
+package com.frank.api.service.setup;
 
 import com.frank.api.model.setup.Shop;
 import com.frank.api.repository.setup.ShopRepository;

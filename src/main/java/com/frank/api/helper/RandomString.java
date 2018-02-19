@@ -1,4 +1,4 @@
-package com.frank.api.utils;
+package com.frank.api.helper;
 
 import java.security.SecureRandom;
 

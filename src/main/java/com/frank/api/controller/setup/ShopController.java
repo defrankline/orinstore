@@ -3,7 +3,7 @@ package com.frank.api.controller.setup;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.setup.Shop;
-import com.frank.api.service.ShopService;
+import com.frank.api.service.setup.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,65 +20,54 @@ public class ShopController extends RestBaseController {
 
     @Autowired
     private ShopService shopService;
-
-    // Get All Shops
+    
     @GetMapping("/shops")
     public List<Shop> getAllShops() {
         return shopService.getAllShops();
     }
-
-    //Get all Shops - paginated
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/shops/paginated")
     public Page<Shop> getPaginatedShops(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
         return shopService.getPaginatedShops(page,perPage);
     }
 
-    // Create a new Shop
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/shops")
-    public Shop createShop(@Valid @RequestBody Shop shop) {
-        return shopService.createShop(shop);
+    public Page<Shop> createShop(@Valid @RequestBody Shop shop, @RequestParam("perPage") Integer perPage) {
+        shopService.createShop(shop);
+        return shopService.getPaginatedShops(0,perPage);
     }
 
-    // Get a Single Shop
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/shops/{id}")
-    public ResponseEntity<Shop> getShopById(@PathVariable(value = "id") Long shopId) {
-        Shop shop = shopService.getShopById(shopId);
+    public ResponseEntity<Shop> getShopById(@PathVariable(value = "id") Long id) {
+        Shop shop = shopService.getShopById(id);
         if (shop == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(shop);
     }
 
-    // Update a Shop
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/shops/{id}")
-    public ResponseEntity<Shop> updateShop(@PathVariable(value = "id") Long shopId, @Valid @RequestBody Shop shopDetails) {
-        Shop shop = shopService.getShopById(shopId);
-        if (shop == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Shop> updateShop(@PathVariable(value = "id") Long id, @Valid @RequestBody Shop shopDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Shop shop = shopService.getShopById(id);
         shop.setName(shopDetails.getName());
         shop.setCode(shopDetails.getCode());
         shop.setEmail(shopDetails.getEmail());
-        shop.setLandline(shopDetails.getLandline());
         shop.setMobile(shopDetails.getMobile());
-        Shop updatedShop = shopService.updateShop(shop);
-        return ResponseEntity.ok(updatedShop);
+        shop.setLandline(shopDetails.getLandline());
+        shopService.updateShop(shop);
+        return shopService.getPaginatedShops(page,perPage);
     }
 
-    // Delete a Shop
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/shops/{id}")
-    public ResponseEntity<Shop> deleteShop(@PathVariable(value = "id") Long shopId) {
-        Shop shop = shopService.getShopById(shopId);
-        if (shop == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Shop> deleteShop(@PathVariable(value = "id") Long id,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Shop shop = shopService.getShopById(id);
         shopService.deleteShop(shop);
-        return ResponseEntity.ok().build();
+        return shopService.getPaginatedShops(page,perPage);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.frank.api.service;
+package com.frank.api.service.sale;
 
 import com.frank.api.model.pos.Sale;
 import com.frank.api.repository.pos.SaleRepository;
@@ -32,7 +32,7 @@ public class SaleService {
         return saleRepository.findAll();
     }
 
-    public Page<Sale> getPaginatedSale(Integer page, Integer perPage){
+    public Page<Sale> getPaginatedSales(Integer page, Integer perPage){
         return saleRepository.findAll(new PageRequest(page,perPage));
     }
 

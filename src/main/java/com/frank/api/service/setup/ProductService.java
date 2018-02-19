@@ -1,4 +1,4 @@
-package com.frank.api.service;
+package com.frank.api.service.setup;
 
 import com.frank.api.model.setup.Product;
 import com.frank.api.repository.setup.ProductRepository;
@@ -33,7 +33,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Page<Product> getPaginatedProduct(Integer page, Integer perPage){
+    public Page<Product> getPaginatedProducts(Integer page, Integer perPage){
         return productRepository.findAll(new PageRequest(page,perPage));
     }
 

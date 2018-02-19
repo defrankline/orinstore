@@ -3,7 +3,7 @@ package com.frank.api.controller.setup;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.setup.Branch;
-import com.frank.api.service.BranchService;
+import com.frank.api.service.setup.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,68 +20,54 @@ public class BranchController extends RestBaseController {
 
     @Autowired
     private BranchService branchService;
-
-    // Get All Branches
+    
     @GetMapping("/branches")
     public List<Branch> getAllBranches() {
         return branchService.getAllBranches();
     }
-
-    //Get all Branches - paginated
+    
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/branches/paginated")
     public Page<Branch> getPaginatedBranches(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
         return branchService.getPaginatedBranches(page,perPage);
     }
 
-    // Create a new Branch
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/branches")
-    public Branch createBranch(@Valid @RequestBody Branch branch) {
-        return branchService.createBranch(branch);
+    public Page<Branch> createBranch(@Valid @RequestBody Branch branch, @RequestParam("perPage") Integer perPage) {
+        branchService.createBranch(branch);
+        return branchService.getPaginatedBranches(0,perPage);
     }
 
-    // Get a Single Branch
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/branches/{id}")
-    public ResponseEntity<Branch> getBranchById(@PathVariable(value = "id") Long branchId) {
-        Branch branch = branchService.getBranchById(branchId);
+    public ResponseEntity<Branch> getBranchById(@PathVariable(value = "id") Long id) {
+        Branch branch = branchService.getBranchById(id);
         if (branch == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(branch);
     }
 
-    // Update a Branch
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/branches/{id}")
-    public ResponseEntity<Branch> updateBranch(@PathVariable(value = "id") Long branchId, @Valid @RequestBody Branch branchDetails) {
-        Branch branch = branchService.getBranchById(branchId);
-        if (branch == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Branch> updateBranch(@PathVariable(value = "id") Long id, @Valid @RequestBody Branch branchDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Branch branch = branchService.getBranchById(id);
         branch.setName(branchDetails.getName());
         branch.setCode(branchDetails.getCode());
         branch.setHeadquarter(branchDetails.getHeadquarter());
-        branch.setEmail(branchDetails.getEmail());
         branch.setLocation(branchDetails.getLocation());
         branch.setShop(branchDetails.getShop());
-        Branch updatedBranch = branchService.updateBranch(branch);
-        return ResponseEntity.ok(updatedBranch);
+        branchService.updateBranch(branch);
+        return branchService.getPaginatedBranches(page,perPage);
     }
 
-    // Delete a Branch
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/branches/{id}")
-    public ResponseEntity<Branch> deleteBranch(@PathVariable(value = "id") Long branchId) {
-        Branch branch = branchService.getBranchById(branchId);
-        if (branch == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Branch> deleteBranch(@PathVariable(value = "id") Long id,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Branch branch = branchService.getBranchById(id);
         branchService.deleteBranch(branch);
-        return ResponseEntity.ok().build();
+        return branchService.getPaginatedBranches(page,perPage);
     }
 
 }

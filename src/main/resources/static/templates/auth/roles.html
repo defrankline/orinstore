@@ -80,10 +80,10 @@
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.name}}</td>
                                 <td nowrap="nowrap">
-                                    <button type="button" class="btn btn-info" ng-click="edit(item)">
+                                    <button type="button" class="btn btn-info" ng-click="edit(item,currentPage,perPage)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" ng-click="delete(item)">
+                                    <button type="button" class="btn btn-danger" ng-click="delete(item,currentPage,perPage)">
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </td>
@@ -108,7 +108,7 @@
             <total-pages currentPage="{{currentPage + 1}}" totalItems="{{ items.totalElements }}"
                          perPage="{{ items.size }}"></total-pages>
         </div>
-        <div class="col-md-2" ng-show="items.totalElements > items.size">
+        <div class="col-md-2">
             <div class="pull-right">
                 <per-page ng-model="perPage" ng-change="pageChanged()"></per-page>
             </div>

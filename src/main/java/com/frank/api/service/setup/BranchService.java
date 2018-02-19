@@ -1,4 +1,4 @@
-package com.frank.api.service;
+package com.frank.api.service.setup;
 
 import com.frank.api.model.setup.Branch;
 import com.frank.api.repository.setup.BranchRepository;

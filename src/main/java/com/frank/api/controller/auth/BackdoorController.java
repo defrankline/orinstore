@@ -3,7 +3,7 @@ package com.frank.api.controller.auth;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.auth.User;
-import com.frank.api.service.UserService;
+import com.frank.api.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

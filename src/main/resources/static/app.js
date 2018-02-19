@@ -60,7 +60,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var customerState = {
         name: 'customers',
         url: '/customers',
-        templateUrl: '/templates/sales/customers.html',
+        templateUrl: '/templates/pos/customers.html',
         controller: CustomerCtrl,
         resolve: CustomerCtrl.resolve,
     };
@@ -68,7 +68,7 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var saleState = {
         name: 'sales',
         url: '/sales',
-        templateUrl: '/templates/sales/sales.html',
+        templateUrl: '/templates/pos/sales.html',
         controller: SaleCtrl,
         resolve: SaleCtrl.resolve,
     };

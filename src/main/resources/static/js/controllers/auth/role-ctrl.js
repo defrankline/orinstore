@@ -58,22 +58,24 @@ function RoleCtrl($scope, DataModel, RoleService, $timeout, $state, ConfirmDialo
     };
 
 
-    $scope.edit = function (formDataModel) {
+    $scope.edit = function (formDataModel,currentPage,perPage) {
         $scope.showEditForm = true;
         $scope.showList = false;
         $scope.showAddButton = false;
         $scope.formDataModel = angular.copy(formDataModel);
 
         $scope.update = function () {
-            var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
-            RoleService.update({page: pageNumber, perPage: $scope.perPage}, $scope.formDataModel,
+            var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+            RoleService.update({page: pageNumber, perPage: perPage}, $scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item updated successfully!";
                     $scope.items = data;
-                    $scope.currentPage = data.number + 1;
+                    $scope.currentPage = $scope.items.number;
+                    $scope.close($scope.items.number, perPage);
                     $scope.alertSuccess();
                 },
                 function (error) {
+                    console.log(error);
                     $scope.errorMessage = "Item Could not be deleted!";
                     $scope.alertError();
                 }
@@ -82,15 +84,14 @@ function RoleCtrl($scope, DataModel, RoleService, $timeout, $state, ConfirmDialo
     };
 
 
-    $scope.delete = function (item) {
+    $scope.delete = function (item,currentPage, perPage) {
         ConfirmDialogService.showConfirmDialog('Confirm Delete!', 'Are sure you want to delete ' + item.title).then(function () {
-                var pageNumber = $scope.currentPage > 0 ? $scope.currentPage - 1 : 0;
-                RoleService.delete({id: item.id, page: pageNumber, perPage: $scope.perPage}, function (data) {
+                var pageNumber = currentPage > 0 ? currentPage - 1 : 0;
+                RoleService.delete({id: item.id, page: pageNumber, perPage: perPage}, function (data) {
                         $scope.successMessage = "Item Deleted Successfully";
                         $scope.items = data;
-                        $scope.currentPage = data.number + 1;
+                        $scope.currentPage = $scope.items.number + 1;
                         $scope.alertSuccess();
-
                     }, function (error) {
                         $scope.errorMessage = "Item could be deleted!";
                         $scope.alertError();
@@ -115,7 +116,7 @@ function RoleCtrl($scope, DataModel, RoleService, $timeout, $state, ConfirmDialo
             $scope.items = data;
         });
     };
-};
+}
 
 RoleCtrl.resolve = {
     DataModel: function (RoleService, $timeout, $q) {

@@ -1,4 +1,4 @@
-package com.frank.api.service;
+package com.frank.api.service.auth;
 
 import com.frank.api.model.auth.Role;
 import com.frank.api.repository.auth.RoleRepository;

@@ -3,10 +3,11 @@ package com.frank.api.controller.setup;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.pos.Customer;
-import com.frank.api.service.CustomerService;
+import com.frank.api.service.sale.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,59 +21,52 @@ public class CustomerController extends RestBaseController {
     @Autowired
     private CustomerService customerService;
 
-    // Get All Customers
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    //Get all Customers - paginated
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SALES_PERSON') or hasAuthority('MANAGER')")
     @GetMapping("/customers/paginated")
-    public Page<Customer> getPaginatedCustomers(@RequestParam("page") Integer page,@RequestParam("perPage") Integer perPage) {
+    public Page<Customer> getPaginatedCustomers(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
         return customerService.getPaginatedCustomers(page,perPage);
     }
 
-    // Create a new Customer
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SALES_PERSON') or hasAuthority('MANAGER')")
     @PostMapping("/customers")
-    public Customer createCustomer(@Valid @RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    public Page<Customer> createCustomer(@Valid @RequestBody Customer customer, @RequestParam("perPage") Integer perPage) {
+        customerService.createCustomer(customer);
+        return customerService.getPaginatedCustomers(0,perPage);
     }
 
-    // Get a Single Customer
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SALES_PERSON') or hasAuthority('MANAGER')")
     @GetMapping("/customers/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerService.getCustomerById(customerId);
+    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long id) {
+        Customer customer = customerService.getCustomerById(id);
         if (customer == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(customer);
     }
 
-    // Update a Customer
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('SALES_PERSON') or hasAuthority('MANAGER')")
     @PutMapping("/customers/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails) {
-        Customer customer = customerService.getCustomerById(customerId);
-        if (customer == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Customer> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody Customer customerDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Customer customer = customerService.getCustomerById(id);
         customer.setName(customerDetails.getName());
         customer.setEmail(customerDetails.getEmail());
         customer.setMobile(customerDetails.getMobile());
-        Customer updatedCustomer = customerService.updateCustomer(customer);
-        return ResponseEntity.ok(updatedCustomer);
+        customerService.updateCustomer(customer);
+        return customerService.getPaginatedCustomers(page,perPage);
     }
 
     // Delete a Customer
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     @DeleteMapping("/customers/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerService.getCustomerById(customerId);
-        if (customer == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Customer> deleteCustomer(@PathVariable(value = "id") Long id,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Customer customer = customerService.getCustomerById(id);
         customerService.deleteCustomer(customer);
-        return ResponseEntity.ok().build();
+        return customerService.getPaginatedCustomers(page,perPage);
     }
 
 }

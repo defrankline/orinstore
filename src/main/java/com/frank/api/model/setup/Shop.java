@@ -1,6 +1,7 @@
 package com.frank.api.model.setup;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.frank.api.model.setup.Branch;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

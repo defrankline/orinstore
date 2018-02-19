@@ -116,10 +116,11 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <button type="button" ng-click="store()" class="btn btn-primary"><i class="fa fa-save"></i> Save
+                        <button type="button" ng-click="store()" class="btn btn-primary"><i class="fa fa-save"></i>
+                            <span translate="SAVE"></span>
                         </button>
-                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
-                            Close
+                        <button type="button" ng-click="close(currentPage - 1,perPage)" class="btn btn-warning"><i class="fa fa-times"></i>
+                            <span translate="SAVE"></span>
                         </button>
                     </div>
                 </div>
@@ -162,10 +163,10 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button type="button" ng-click="update()" class="btn btn-primary"><i class="fa fa-save"></i>
-                            Save
+                            <span translate="SAVE"></span>
                         </button>
-                        <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
-                            Close
+                        <button type="button" ng-click="close(currentPage - 1,perPage)" class="btn btn-warning"><i class="fa fa-times"></i>
+                            <span translate="CLOSE"></span>
                         </button>
                     </div>
                 </div>
@@ -174,7 +175,7 @@
     </div>
     <div layout="row">
         <button type="button" ng-show="showAddButton===true" class="btn btn-lg btn-success" ng-click="create()">
-            <i class="fa fa-plus"></i> Create
+            <i class="fa fa-plus"></i> <span translate="CREATE"></span>
         </button>
     </div>
     <br/>
@@ -219,7 +220,7 @@
                         </div>
                         <div class="box-footer">
                             <button type="button" ng-click="close()" class="btn btn-warning"><i class="fa fa-times"></i>
-                                Close
+                                <span translate="CLOSE"></span>
                             </button>
                         </div>
                     </div>
@@ -262,10 +263,10 @@
                                     <button type="button" class="btn btn-success" ng-click="saleItems(item)">
                                         <i class="fa fa-list"></i>
                                     </button>
-                                    <button type="button" class="btn btn-info" ng-click="edit(item)">
+                                    <button type="button" class="btn btn-info" ng-click="edit(item,currentPage,perPage)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" ng-click="delete(item)">
+                                    <button type="button" class="btn btn-danger" ng-click="delete(item,currentPage,perPage)">
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </td>

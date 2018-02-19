@@ -62,9 +62,10 @@ function ProductCtrl($scope, DataModel, ProductService, ProductCategoryService, 
         });
 
         $scope.store = function () {
-            ProductService.save($scope.formDataModel,
+            ProductService.save({perPage: $scope.perPage},$scope.formDataModel,
                 function (data) {
                     $scope.successMessage = "Item Added Successfully";
+                    $scope.items = data;
                     $scope.showCreateForm = false;
                     $scope.showList = true;
                     $scope.showAddButton = true;

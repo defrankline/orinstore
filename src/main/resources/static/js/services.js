@@ -59,17 +59,6 @@ services.factory('SaleService', ['$resource', function ($resource) {
     });
 }]);
 
-services.factory('SaleItemService', ['$resource', function ($resource) {
-    return $resource(API_URL + '/api/saleItems/:id', {}, {
-        update: {method: 'PUT', params: {id: '@id'}},
-        paginated: {
-            method: 'GET',
-            params: {page: '@page', perPage: '@perPage'},
-            url: API_URL + '/api/saleItems/paginated'
-        }
-    });
-}]);
-
 services.factory('RoleService', ['$resource', function ($resource) {
     return $resource(API_URL + '/api/roles/:id', {}, {
         update: {method: 'PUT', params: {id: '@id'}},
@@ -78,5 +67,16 @@ services.factory('RoleService', ['$resource', function ($resource) {
             params: {page: '@page', perPage: '@perPage'},
             url: API_URL + '/api/roles/paginated'
         }
+    });
+}]);
+
+services.factory('SaleItemService', ['$resource', function ($resource) {
+    return $resource(API_URL + '/api/sale-items/:id', {}, {
+        update: {method: 'PUT', params: {id: '@id'}},
+        paginated: {
+            method: 'GET',
+            params: {page: '@page', perPage: '@perPage'},
+            url: API_URL + '/api/sale-items/paginated'
+        },
     });
 }]);

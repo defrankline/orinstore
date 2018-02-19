@@ -3,7 +3,7 @@ package com.frank.api.controller.setup;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.setup.Brand;
-import com.frank.api.service.BrandService;
+import com.frank.api.service.setup.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class BrandController extends RestBaseController {
     }
 
     //Get all Brands - paginated
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/brands/paginated")
     public Page<Brand> getPaginatedBrands(@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
         return brandService.getPaginatedBrands(page,perPage);
@@ -37,15 +37,16 @@ public class BrandController extends RestBaseController {
     // Create a new Brand
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/brands")
-    public Brand createBrand(@Valid @RequestBody Brand brand) {
-        return brandService.createBrand(brand);
+    public Page<Brand> createBrand(@Valid @RequestBody Brand brand, @RequestParam("perPage") Integer perPage) {
+        brandService.createBrand(brand);
+        return brandService.getPaginatedBrands(0,perPage);
     }
 
     // Get a Single Brand
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/brands/{id}")
-    public ResponseEntity<Brand> getBrandById(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
+    public ResponseEntity<Brand> getBrandById(@PathVariable(value = "id") Long id) {
+        Brand brand = brandService.getBrandById(id);
         if (brand == null) {
             return ResponseEntity.notFound().build();
         }
@@ -53,28 +54,22 @@ public class BrandController extends RestBaseController {
     }
 
     // Update a Brand
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/brands/{id}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable(value = "id") Long brandId, @Valid @RequestBody Brand brandDetails) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Brand> updateBrand(@PathVariable(value = "id") Long id, @Valid @RequestBody Brand brandDetails,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Brand brand = brandService.getBrandById(id);
         brand.setName(brandDetails.getName());
-        Brand updatedBrand = brandService.updateBrand(brand);
-        return ResponseEntity.ok(updatedBrand);
+        brandService.updateBrand(brand);
+        return brandService.getPaginatedBrands(page,perPage);
     }
 
     // Delete a Brand
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/brands/{id}")
-    public ResponseEntity<Brand> deleteBrand(@PathVariable(value = "id") Long brandId) {
-        Brand brand = brandService.getBrandById(brandId);
-        if (brand == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public Page<Brand> deleteBrand(@PathVariable(value = "id") Long id,@RequestParam("page") Integer page, @RequestParam("perPage") Integer perPage) {
+        Brand brand = brandService.getBrandById(id);
         brandService.deleteBrand(brand);
-        return ResponseEntity.ok().build();
+        return brandService.getPaginatedBrands(page,perPage);
     }
 
 }
