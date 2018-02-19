@@ -144,7 +144,7 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
                             'price': item.product.price,
                             'qty': item.qty,
                             'product': item.product,
-                            'sale': data,
+                            'sale': data.sale,
                         };
                         SaleItemService.save($scope.saleItems,
                             function (data) {
@@ -155,10 +155,10 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
                         )
                     });
 
-                    $scope.successMessage = "Sale Recorded Successfully";
+                    $scope.successMessage = data.successMessage;
                     $scope.showCreateForm = false;
                     $scope.showList = true;
-                    $scope.items = data;
+                    $scope.items = data.items;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();

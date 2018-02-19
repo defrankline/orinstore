@@ -52,10 +52,10 @@ services.factory('CustomerService', ['$resource', function ($resource) {
 }]);
 
 services.factory('SaleService', ['$resource', function ($resource) {
-    return $resource(API_URL + '/api/sale/:id', {}, {
+    return $resource(API_URL + '/api/sales/:id', {}, {
         update: {method: 'PUT', params: {id: '@id'}},
-        paginated: {method: 'GET', params: {page: '@page', perPage: '@perPage'}, url: API_URL + '/api/sale/paginated'},
-        items: {method: 'GET', params: {saleId: '@saleId'}, url: API_URL + '/api/sale/items'},
+        paginated: {method: 'GET', params: {page: '@page', perPage: '@perPage'}, url: API_URL + '/api/sales/paginated'},
+        items: {method: 'GET', params: {saleId: '@saleId'}, url: API_URL + '/api/sales/items'},
     });
 }]);
 
@@ -67,5 +67,16 @@ services.factory('RoleService', ['$resource', function ($resource) {
             params: {page: '@page', perPage: '@perPage'},
             url: API_URL + '/api/roles/paginated'
         }
+    });
+}]);
+
+services.factory('SaleItemService', ['$resource', function ($resource) {
+    return $resource(API_URL + '/api/sale-items/:id', {}, {
+        update: {method: 'PUT', params: {id: '@id'}},
+        paginated: {
+            method: 'GET',
+            params: {page: '@page', perPage: '@perPage'},
+            url: API_URL + '/api/sale-items/paginated'
+        },
     });
 }]);

@@ -1,4 +1,4 @@
-package com.frank.api.model.sale;
+package com.frank.api.model.pos;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

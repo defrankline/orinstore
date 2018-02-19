@@ -179,7 +179,7 @@ $(function () {
 
   // Donut Chart
   var donut = new Morris.Donut({
-    element  : 'sale-chart',
+    element  : 'pos-chart',
     resize   : true,
     colors   : ['#3c8dbc', '#f56954', '#00a65a'],
     data     : [

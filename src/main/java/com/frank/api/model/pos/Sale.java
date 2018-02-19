@@ -1,4 +1,4 @@
-package com.frank.api.model.sale;
+package com.frank.api.model.pos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name = "sale")
+@Table(name = "sales")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class Sale implements Serializable {

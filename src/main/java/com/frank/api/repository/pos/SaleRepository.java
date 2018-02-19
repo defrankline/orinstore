@@ -1,6 +1,6 @@
-package com.frank.api.repository.sale;
+package com.frank.api.repository.pos;
 
-import com.frank.api.model.sale.Sale;
+import com.frank.api.model.pos.Sale;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

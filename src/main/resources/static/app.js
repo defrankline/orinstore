@@ -60,15 +60,15 @@ myApp.config(function($stateProvider,$urlRouterProvider,$translateProvider) {
     var customerState = {
         name: 'customers',
         url: '/customers',
-        templateUrl: '/templates/sale/customers.html',
+        templateUrl: '/templates/pos/customers.html',
         controller: CustomerCtrl,
         resolve: CustomerCtrl.resolve,
     };
 
     var saleState = {
-        name: 'sale',
-        url: '/sale',
-        templateUrl: '/templates/sale/sale.html',
+        name: 'sales',
+        url: '/sales',
+        templateUrl: '/templates/pos/sales.html',
         controller: SaleCtrl,
         resolve: SaleCtrl.resolve,
     };

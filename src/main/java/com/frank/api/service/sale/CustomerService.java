@@ -1,7 +1,7 @@
 package com.frank.api.service.sale;
 
-import com.frank.api.model.sale.Customer;
-import com.frank.api.repository.sale.CustomerRepository;
+import com.frank.api.model.pos.Customer;
+import com.frank.api.repository.pos.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

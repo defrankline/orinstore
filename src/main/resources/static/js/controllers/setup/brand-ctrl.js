@@ -45,6 +45,7 @@ function BrandCtrl($scope, DataModel, BrandService, $timeout, $state, ConfirmDia
                     $scope.showCreateForm = false;
                     $scope.showList = true;
                     $scope.items = data;
+                    $scope.currentPage = 0;
                     $scope.showAddButton = true;
                     $scope.errors = undefined;
                     $scope.alertSuccess();
