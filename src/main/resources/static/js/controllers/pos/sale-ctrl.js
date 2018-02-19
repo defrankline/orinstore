@@ -1,7 +1,7 @@
 function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleItemService, ProductService, $timeout, $state, ConfirmDialogService) {
     $scope.title = "SALES";
     $scope.items = DataModel;
-
+    console.log(DataModel);
 
     $scope.totalTax = function () {
         var total = 0;
@@ -186,12 +186,13 @@ function SaleCtrl($scope, DataModel, SaleService, CustomerService, $http, SaleIt
 
         $scope.saleTotal = function () {
             var total = 0;
-            for (var i = 0; i < $scope.itms.length; i++) {
-                var item = $scope.itms[i];
+
+            angular.forEach($scope.itms, function (value,key) {
+                var item = value;
                 var price = item.price;
                 var qty = item.qty;
                 total += parseFloat(price * qty);
-            }
+            });
             return total;
         };
 

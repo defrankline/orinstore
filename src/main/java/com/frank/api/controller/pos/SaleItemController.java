@@ -21,10 +21,10 @@ public class SaleItemController extends RestBaseController {
     
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
     @GetMapping("/sales/items")
-    public HashMap<String, Object> items(@RequestParam("id") Long id) {
+    public HashMap<String, Object> items(@RequestParam("saleId") Long saleId) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("status", "0");
-        response.put("items", saleItemService.getSaleItems(id));
+        response.put("items", saleItemService.getSaleItems(saleId));
         return response;
     }
     
