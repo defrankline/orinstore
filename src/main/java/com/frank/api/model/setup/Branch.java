@@ -35,6 +35,10 @@ public class Branch implements Serializable {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -48,12 +52,13 @@ public class Branch implements Serializable {
 
     }
 
-    public Branch(String name, String email, String code, Boolean isHeadquarter, Shop shop, Date createdAt, Date updatedAt) {
+    public Branch(String name, String email, String code, Boolean isHeadquarter, Shop shop, City city, Date createdAt, Date updatedAt) {
         this.name = name;
         this.email = email;
         this.code = code;
         this.isHeadquarter = isHeadquarter;
         this.shop = shop;
+        this.city = city;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -96,6 +101,14 @@ public class Branch implements Serializable {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public Boolean getHeadquarter() {

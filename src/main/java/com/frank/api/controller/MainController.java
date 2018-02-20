@@ -1,5 +1,6 @@
 package com.frank.api.controller;
 
+import com.frank.api.model.setup.City;
 import com.frank.api.service.setup.CityService;
 import com.frank.api.service.setup.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -35,12 +37,6 @@ public class MainController {
     @RequestMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("countries", countryService.getAllCountries());
-        return "signup";
-    }
-
-    @GetMapping("/country/cities/{id}")
-    public String cities(@PathVariable(value = "id") Long id, Model model) {
-        model.addAttribute("cities", cityService.findAllByCountryId(id));
         return "signup";
     }
 }

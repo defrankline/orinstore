@@ -66,4 +66,9 @@ public class CityController extends RestBaseController {
         cityService.deleteCity(city);
         return cityService.getPaginatedCities(page,perPage);
     }
+
+    @GetMapping("/country/cities")
+    public List<City> getAllProducts(@RequestParam("countryId") Long countryId) {
+        return cityService.findAllByCountryId(countryId);
+    }
 }
