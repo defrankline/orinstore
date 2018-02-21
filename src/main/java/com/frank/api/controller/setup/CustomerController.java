@@ -3,7 +3,7 @@ package com.frank.api.controller.setup;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.pos.Customer;
-import com.frank.api.service.sale.CustomerService;
+import com.frank.api.service.pos.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

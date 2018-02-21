@@ -3,7 +3,7 @@ package com.frank.api.controller.pos;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.model.pos.SaleItem;
-import com.frank.api.service.sale.SaleItemService;
+import com.frank.api.service.pos.SaleItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +21,10 @@ public class SaleItemController extends RestBaseController {
     
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER') or hasAuthority('SALES_PERSON')")
     @GetMapping("/sales/items")
-    public HashMap<String, Object> items(@RequestParam("id") Long id) {
+    public HashMap<String, Object> items(@RequestParam("saleId") Long saleId) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("status", "0");
-        response.put("items", saleItemService.getSaleItems(id));
+        response.put("items", saleItemService.getSaleItems(saleId));
         return response;
     }
     

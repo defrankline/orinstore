@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "branches")
+@Table(name = "cities")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
-public class Branch implements Serializable {
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+        allowGetters = true)
+public class City implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,22 +23,12 @@ public class Branch implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false,unique = true)
-    private String email;
-
     @Column(name = "code", nullable = false,unique = true)
     private String code;
 
-    @Column(name = "is_headquarter")
-    private Boolean isHeadquarter;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "city_id")
-    private City city;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -48,17 +39,14 @@ public class Branch implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Branch() {
+    public City(){
 
     }
 
-    public Branch(String name, String email, String code, Boolean isHeadquarter, Shop shop, City city, Date createdAt, Date updatedAt) {
+    public City(String name, Country country,String code, Date createdAt, Date updatedAt) {
         this.name = name;
-        this.email = email;
         this.code = code;
-        this.isHeadquarter = isHeadquarter;
-        this.shop = shop;
-        this.city = city;
+        this.country = country;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -79,14 +67,6 @@ public class Branch implements Serializable {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getCode() {
         return code;
     }
@@ -95,28 +75,12 @@ public class Branch implements Serializable {
         this.code = code;
     }
 
-    public Shop getShop() {
-        return shop;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public Boolean getHeadquarter() {
-        return isHeadquarter;
-    }
-
-    public void setHeadquarter(Boolean headquarter) {
-        isHeadquarter = headquarter;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public Date getCreatedAt() {
