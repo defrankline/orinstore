@@ -17,6 +17,9 @@ public class User {
     @Column(name = "email",unique = true)
     private String email;
 
+    @Column(name = "mobile",unique = true)
+    private String mobile;
+
     @Column(name = "username",unique = true)
     private String username;
 
@@ -28,9 +31,6 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "active")
-    private int active;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "branch_id")
@@ -47,11 +47,11 @@ public class User {
         this.id = user.getId();
         this.email = user.getEmail();
         this.username = user.getUsername();
+        this.mobile = user.getMobile();
         this.firstName =user.getFirstName();
         this.lastName =user.getLastName();
         this.password = user.getPassword();
         this.roles = user.getRoles();
-        this.active = user.getActive();
         this.branch = user.getBranch();
     }
 
@@ -103,12 +103,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getActive() {
-        return active;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setActive(int active) {
-        this.active = active;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public Set<Role> getRoles() {

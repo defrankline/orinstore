@@ -43,4 +43,8 @@ public class CityService {
     public List<City> findAllByCountryId(Long countryId) {
         return cityRepository.findAllByCountryId(countryId);
     }
+
+    public City getCityByCode(String code){
+        return cityRepository.findOneByCode(code);
+    }
 }

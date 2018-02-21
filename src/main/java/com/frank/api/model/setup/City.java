@@ -23,6 +23,9 @@ public class City implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "code", nullable = false,unique = true)
+    private String code;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
     private Country country;
@@ -40,8 +43,9 @@ public class City implements Serializable {
 
     }
 
-    public City(String name, Country country, Date createdAt, Date updatedAt) {
+    public City(String name, Country country,String code, Date createdAt, Date updatedAt) {
         this.name = name;
+        this.code = code;
         this.country = country;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -61,6 +65,14 @@ public class City implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Country getCountry() {

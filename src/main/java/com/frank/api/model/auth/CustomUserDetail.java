@@ -54,11 +54,6 @@ public class CustomUserDetail extends User implements UserDetails {
     }
 
     @Override
-    public int getActive() {
-        return super.getActive();
-    }
-
-    @Override
     public Set<Role> getRoles() {
         return super.getRoles();
     }
