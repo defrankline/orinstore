@@ -105,7 +105,7 @@ public class UserController extends RestBaseController {
 
     @Transactional
     @RequestMapping(value = "/users/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public HashMap<String, Object> registerShop(@RequestBody User user){
+    public HashMap<String, Object> registerShop(@Valid @RequestBody User user){
 
         RandomString randomString = new RandomString();
         String shopCode = randomString.randomString(8);
@@ -137,7 +137,7 @@ public class UserController extends RestBaseController {
             user.setEmail(user.getEmail());
             user.setBranch(branchCreated);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userService.createUser(user);
+            User userCreated = userService.createUser(user);
 
             HashMap<String, Object> res = new HashMap<>();
             res.put("status", 1);

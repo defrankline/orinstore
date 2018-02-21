@@ -1,6 +1,7 @@
 package com.frank.api.model.auth;
 
 import com.frank.api.model.setup.Branch;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Email
     @Column(name = "email",unique = true)
     private String email;
 
