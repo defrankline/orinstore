@@ -16,13 +16,13 @@ public class User {
     private Long id;
 
     @Email
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "mobile",unique = true)
+    @Column(name = "mobile", unique = true)
     private String mobile;
 
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -39,7 +39,7 @@ public class User {
     private Branch branch;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public User() {
@@ -50,8 +50,8 @@ public class User {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.mobile = user.getMobile();
-        this.firstName =user.getFirstName();
-        this.lastName =user.getLastName();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.password = user.getPassword();
         this.roles = user.getRoles();
         this.branch = user.getBranch();

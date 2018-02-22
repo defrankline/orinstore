@@ -3,9 +3,11 @@ package com.frank.api.controller.auth;
 import com.frank.api.config.Config;
 import com.frank.api.controller.RestBaseController;
 import com.frank.api.helper.RandomString;
+import com.frank.api.model.auth.Role;
 import com.frank.api.model.auth.User;
 import com.frank.api.model.setup.Branch;
 import com.frank.api.model.setup.Shop;
+import com.frank.api.service.auth.RoleService;
 import com.frank.api.service.auth.UserService;
 import com.frank.api.service.setup.BranchService;
 import com.frank.api.service.setup.CityService;
@@ -19,8 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin(origins = Config.ORIGINS, maxAge = Config.MAX_AGE)
 @RestController
@@ -38,6 +39,9 @@ public class UserController extends RestBaseController {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -137,7 +141,10 @@ public class UserController extends RestBaseController {
             user.setEmail(user.getEmail());
             user.setBranch(branchCreated);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            User userCreated = userService.createUser(user);
+
+            Role userRole = roleService.getRoleByName("ACCOUNTANT");
+            user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+            userService.createUser(user);
 
             HashMap<String, Object> res = new HashMap<>();
             res.put("status", 1);
