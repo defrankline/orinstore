@@ -46,6 +46,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public User getByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public User getByMobile(String mobile){
+        return userRepository.findByMobile(mobile);
+    }
+
     public User updateUser(User user) {
         return userRepository.save(user);
     }

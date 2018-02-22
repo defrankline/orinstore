@@ -1,6 +1,7 @@
 package com.frank.api.model.auth;
 
 import com.frank.api.model.setup.Branch;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,13 +15,14 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email",unique = true)
+    @Email
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "mobile",unique = true)
+    @Column(name = "mobile", unique = true)
     private String mobile;
 
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -36,8 +38,8 @@ public class User {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public User() {
@@ -48,8 +50,8 @@ public class User {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.mobile = user.getMobile();
-        this.firstName =user.getFirstName();
-        this.lastName =user.getLastName();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.password = user.getPassword();
         this.roles = user.getRoles();
         this.branch = user.getBranch();
