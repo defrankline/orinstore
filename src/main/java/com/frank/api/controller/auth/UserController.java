@@ -114,47 +114,61 @@ public class UserController extends RestBaseController {
         RandomString randomString = new RandomString();
         String shopCode = randomString.randomString(8);
         String branchCode = randomString.randomString(12);
+        Role userRole = roleService.getRoleByName("ADMIN");
 
-        try{
-            //create shop
-            Shop shop = new Shop();
-            shop.setCode(shopCode);
-            shop.setEmail(user.getEmail());
-            shop.setMobile(user.getMobile());
-            shop.setName("Shop-"+shopCode);
-            Shop shopCreated = shopService.createShop(shop);
-
-            //create branch
-            Branch branch = new Branch();
-            branch.setName("Branch-"+branchCode);
-            branch.setCode(branchCode);
-            branch.setEmail(user.getEmail());
-            branch.setHeadquarter(Boolean.TRUE);
-            branch.setShop(shopCreated);
-            branch.setCity(cityService.getCityByCode("DAR"));
-            Branch branchCreated = branchService.createBranch(branch);
-
-            //create admin user
-            user.setFirstName(user.getFirstName());
-            user.setLastName(user.getLastName());
-            user.setMobile(user.getMobile());
-            user.setEmail(user.getEmail());
-            user.setBranch(branchCreated);
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
-            Role userRole = roleService.getRoleByName("ACCOUNTANT");
-            user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-            userService.createUser(user);
-
-            HashMap<String, Object> res = new HashMap<>();
-            res.put("status", 1);
-            res.put("successMessage", "CREATE_SUCCESS");
-            return res;
-        }catch (Exception e){
+        if(userService.getUserByUsername(user.getUsername()) == null){
             HashMap<String, Object> res = new HashMap<>();
             res.put("status", 0);
-            res.put("errorMessage", "CREATE_ERROR");
+            res.put("errorMessage", "USERNAME_EXISTS");
             return res;
         }
+
+        if(userService.getByEmail(user.getEmail()) == null){
+            HashMap<String, Object> res = new HashMap<>();
+            res.put("status", 0);
+            res.put("errorMessage", "EMAIL_EXISTS");
+            return res;
+        }
+
+        if(userService.getByMobile(user.getMobile()) == null){
+            HashMap<String, Object> res = new HashMap<>();
+            res.put("status", 0);
+            res.put("errorMessage", "MOBILE_NUMBER_EXISTS");
+            return res;
+        }
+
+        //create shop
+        Shop shop = new Shop();
+        shop.setCode(shopCode);
+        shop.setEmail(user.getEmail());
+        shop.setMobile(user.getMobile());
+        shop.setName("Shop-"+shopCode);
+        Shop shopCreated = shopService.createShop(shop);
+
+        //create branch
+        Branch branch = new Branch();
+        branch.setName("Branch-"+branchCode);
+        branch.setCode(branchCode);
+        branch.setEmail(user.getEmail());
+        branch.setHeadquarter(Boolean.TRUE);
+        branch.setShop(shopCreated);
+        branch.setCity(cityService.getCityByCode("DAR"));
+        Branch branchCreated = branchService.createBranch(branch);
+
+        //create admin user
+        user.setFirstName(user.getFirstName());
+        user.setLastName(user.getLastName());
+        user.setMobile(user.getMobile());
+        user.setEmail(user.getEmail());
+        user.setBranch(branchCreated);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        userService.createUser(user);
+
+
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("status", 1);
+        res.put("successMessage", "CREATE_SUCCESS");
+        return res;
     }
 }
